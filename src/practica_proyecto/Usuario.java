@@ -1,6 +1,7 @@
 package practica_proyecto;
 
 public class Usuario {
+
     private String idUsuario;
     private String contrasena;
 
@@ -8,9 +9,9 @@ public class Usuario {
         this.idUsuario = idUsuario;
         this.contrasena = contrasena;
     }
-    
-    public void login(){
-        
+
+    public void login() {
+
     }
 
     public String getIdUsuario() {
@@ -28,5 +29,5 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-   
+
 }

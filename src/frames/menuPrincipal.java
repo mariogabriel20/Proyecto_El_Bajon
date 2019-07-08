@@ -4,10 +4,9 @@ public class menuPrincipal extends javax.swing.JFrame {
 
     public menuPrincipal() {
         initComponents();
-        this.getContentPane().setBackground(new java.awt.Color(102,255,102));
+        this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -21,11 +20,12 @@ public class menuPrincipal extends javax.swing.JFrame {
         jProductos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jVentas.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jVentas.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-ventas-totales-80.png"))); // NOI18N
         jVentas.setText("Ventas");
         jVentas.addActionListener(new java.awt.event.ActionListener() {
@@ -40,7 +40,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(63, 10, 0, 0);
         jPanel1.add(jVentas, gridBagConstraints);
 
-        jCerrarSesion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jCerrarSesion.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-change-user-30.png"))); // NOI18N
         jCerrarSesion.setText("Cerrar sesión");
         jCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -55,7 +55,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(154, 86, 11, 10);
         jPanel1.add(jCerrarSesion, gridBagConstraints);
 
-        jUsuarios.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jUsuarios.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-grupo-de-usuarios-hombre-hombre-80.png"))); // NOI18N
         jUsuarios.setText("Usuarios");
         jUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +80,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(11, 66, 0, 0);
         jPanel1.add(jTitulo, gridBagConstraints);
 
-        jProductos.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jProductos.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-pancho-80.png"))); // NOI18N
         jProductos.setText("Productos");
         jProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +142,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         this.setVisible(false);
         frame5.setVisible(true);
     }//GEN-LAST:event_jProductosActionPerformed
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jCerrarSesion;
     private javax.swing.JPanel jPanel1;

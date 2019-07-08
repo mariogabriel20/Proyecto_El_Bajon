@@ -26,6 +26,7 @@ public class inicioSesion extends javax.swing.JFrame {
         jIniciar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
@@ -165,30 +166,30 @@ public class inicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_jUserKeyPressed
 
     private void jUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jUserFocusGained
-        if(jUser.getText().trim().toLowerCase().equals("usuario")){
+        if (jUser.getText().trim().toLowerCase().equals("usuario")) {
             jUser.setText("");
             jUser.setForeground(Color.black);
         }
     }//GEN-LAST:event_jUserFocusGained
 
     private void jUserFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jUserFocusLost
-        if(jUser.getText().trim().toLowerCase().equals("")){
+        if (jUser.getText().trim().toLowerCase().equals("")) {
             jUser.setText("Usuario");
-            jUser.setForeground(new java.awt.Color(153,153,153));
+            jUser.setForeground(new java.awt.Color(153, 153, 153));
         }
     }//GEN-LAST:event_jUserFocusLost
 
     private void jPassFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPassFocusGained
-        if(jPass.getText().trim().toLowerCase().equals("contraseña")){
+        if (jPass.getText().trim().toLowerCase().equals("contraseña")) {
             jPass.setText("");
             jPass.setForeground(Color.black);
         }
     }//GEN-LAST:event_jPassFocusGained
 
     private void jPassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPassFocusLost
-        if(jPass.getText().trim().toLowerCase().equals("")){
+        if (jPass.getText().trim().toLowerCase().equals("")) {
             jPass.setText("contraseña");
-            jPass.setForeground(new java.awt.Color(153,153,153));
+            jPass.setForeground(new java.awt.Color(153, 153, 153));
         }
     }//GEN-LAST:event_jPassFocusLost
 
@@ -222,6 +223,6 @@ public class inicioSesion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña errónea", "Error", JOptionPane.PLAIN_MESSAGE);
         }
         Usuario user = new Usuario(jUser.getText(), jPass.getText());
-        System.out.println("Nombre: "+user.getIdUsuario());
+        System.out.println("Nombre: " + user.getIdUsuario());
     }
 }

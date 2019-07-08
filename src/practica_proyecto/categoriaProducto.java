@@ -1,6 +1,7 @@
 package practica_proyecto;
 
 class categoriaProducto {
+
     private int id;
     private String nombre;
     private String descripcion;
@@ -34,6 +35,5 @@ class categoriaProducto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
+
 }

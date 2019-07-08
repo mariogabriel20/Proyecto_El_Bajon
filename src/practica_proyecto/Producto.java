@@ -1,6 +1,7 @@
 package practica_proyecto;
 
 public class Producto {
+
     private int id;
     private String nombre;
     private String descripcion;
@@ -54,5 +55,5 @@ public class Producto {
     public void setPrecio(int precio) {
         this.precio = precio;
     }
-    
+
 }
