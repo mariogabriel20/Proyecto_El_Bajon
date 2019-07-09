@@ -1,5 +1,9 @@
 package frames;
 
+import javax.swing.JOptionPane;
+import practica_proyecto.SqlCategorias;
+import practica_proyecto.categoriaProducto;
+
 public class Categorias extends javax.swing.JFrame {
 
     public Categorias() {
@@ -139,7 +143,23 @@ public class Categorias extends javax.swing.JFrame {
     }//GEN-LAST:event_jRegresarActionPerformed
 
     private void jAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActionPerformed
-        registroPedido botonsaco = new registroPedido();
+        //registroPedido botonsaco = new registroPedido();
+        
+        SqlCategorias modSql = new SqlCategorias();
+        categoriaProducto mod = new categoriaProducto();
+        
+        mod.setNombre(jNombre.getText());
+        mod.setDescripcion(jDescripcion.getText());
+        mod.setEstadoCategoria(true);
+        
+        if(modSql.registrarCategorias(mod))
+        {
+            JOptionPane.showMessageDialog(null, "Registro guardado");
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al guardar");
+            
+        }
+        
     }//GEN-LAST:event_jAgregarActionPerformed
 
 

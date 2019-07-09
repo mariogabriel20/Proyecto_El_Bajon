@@ -1,25 +1,26 @@
 package practica_proyecto;
 
-class categoriaProducto {
+public class categoriaProducto {
 
-    private int id;
+    
     private String nombre;
     private String descripcion;
+    private boolean estadoCategoria;
 
-    public categoriaProducto(int id, String nombre, String descripcion) {
+    /*public categoriaProducto(int id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-
-    public int getId() {
+*/
+    /*public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getNombre() {
         return nombre;
     }
@@ -36,4 +37,14 @@ class categoriaProducto {
         this.descripcion = descripcion;
     }
 
+    public boolean isEstadoCategoria() {
+        return estadoCategoria;
+    }
+
+    public void setEstadoCategoria(boolean estadoCategoria) {
+        this.estadoCategoria = estadoCategoria;
+    }
+
+    
+    
 }
