@@ -37,9 +37,10 @@ public class Productos extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jRegresar = new javax.swing.JButton();
         jBuscar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(810, 634));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
@@ -51,11 +52,11 @@ public class Productos extends javax.swing.JFrame {
         jEliminar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/eliminar.png"))); // NOI18N
         jEliminar.setText("Eliminar");
-        jPanel1.add(jEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 450, 130, 40));
+        jPanel1.add(jEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 130, 40));
 
         jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 183, 100, -1));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 100, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Buscar:");
@@ -64,7 +65,7 @@ public class Productos extends javax.swing.JFrame {
         jAgregar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/guardar.png"))); // NOI18N
         jAgregar.setText("Agregar");
-        jPanel1.add(jAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 392, 120, 40));
+        jPanel1.add(jAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 400, 120, 40));
 
         jCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-editar-30.png"))); // NOI18N
         jCategoria.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -80,7 +81,7 @@ public class Productos extends javax.swing.JFrame {
                 jCategoriaMouseExited(evt);
             }
         });
-        jPanel1.add(jCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(695, 176, -1, -1));
+        jPanel1.add(jCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 150, -1, -1));
 
         jComboBox2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -88,7 +89,7 @@ public class Productos extends javax.swing.JFrame {
 
         jTitulo2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTitulo2.setText("Agregar producto ");
-        jPanel1.add(jTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, -1, -1));
+        jPanel1.add(jTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, -1, -1));
 
         jScroll2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -96,7 +97,7 @@ public class Productos extends javax.swing.JFrame {
         jDescripcion.setRows(5);
         jScroll2.setViewportView(jDescripcion);
 
-        jPanel1.add(jScroll2, new org.netbeans.lib.awtextra.AbsoluteConstraints(584, 262, 185, 60));
+        jPanel1.add(jScroll2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 230, 185, 60));
 
         jTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,7 +117,7 @@ public class Productos extends javax.swing.JFrame {
         jModificar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/modificar.png"))); // NOI18N
         jModificar.setText("Modificar");
-        jPanel1.add(jModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 392, 130, 40));
+        jPanel1.add(jModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 130, 40));
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jTitulo.setText("Productos");
@@ -124,21 +125,21 @@ public class Productos extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Nombre:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 225, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Descripción:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 262, -1, -1));
-        jPanel1.add(jNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 224, 140, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 230, -1, -1));
+        jPanel1.add(jNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, 140, -1));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Precio:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 342, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Categoría:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 186, -1, -1));
-        jPanel1.add(jPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(584, 340, 60, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, -1, -1));
+        jPanel1.add(jPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, 60, -1));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Exportar:");
@@ -152,7 +153,7 @@ public class Productos extends javax.swing.JFrame {
                 jRegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(jRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 534, -1, -1));
+        jPanel1.add(jRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, -1, -1));
 
         jBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,20 +162,28 @@ public class Productos extends javax.swing.JFrame {
         });
         jPanel1.add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 84, 120, -1));
 
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel7.setText("Tamaño:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 350, -1, -1));
+
+        jComboBox3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 110, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -216,6 +225,7 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JLabel jCategoria;
     public static javax.swing.JComboBox<String> jComboBox1;
     public static javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     public static javax.swing.JTextArea jDescripcion;
     public static javax.swing.JButton jEliminar;
     public static javax.swing.JLabel jLabel1;
@@ -224,6 +234,7 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
     public static javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     public static javax.swing.JButton jModificar;
     public static javax.swing.JTextField jNombre;
     private javax.swing.JPanel jPanel1;
