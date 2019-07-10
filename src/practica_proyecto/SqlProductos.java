@@ -1,34 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package practica_proyecto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static practica_proyecto.Conexion.getConexion;
 
 /**
  *
  * @author migfe
  */
-public class SqlCategorias extends Conexion{
+public class SqlProductos extends Conexion{
     
-    
-    public boolean registrarCategorias(categoriaProducto catp){
+    public boolean registrarProductos(Producto prod){
         
         PreparedStatement ps = null;
         Connection con = getConexion();
-        String sql = "INSERT INTO categoria (nombreCategoria,descripcionCategoria,estadoCategoria) VALUES (?,?,?)";
+        String sql = "INSERT INTO productos (idCategoria,nombreProducto,descripcionProducto,precio,tamanoProducto,estadoProductos) VALUES (?,?,?,?,?,?)";
         try {
             ps = con.prepareStatement(sql);
             
            
-            ps.setString(1, catp.getNombre());
-            ps.setString(2, catp.getDescripcion());
-            ps.setBoolean(3, catp.isEstadoCategoria());
+            ps.setInt(1, prod.getIdCategoria());
+            ps.setString(2,prod.getNombre() );
+            ps.setString(3, prod.getDescripcion());
+            ps.setInt(4, prod.getPrecio());
+            ps.setInt(5, prod.getTamanoProducto());
+            ps.setBoolean(6, prod.isEstadoProductos());
             
             ps.execute();
             con.close();
@@ -43,20 +42,23 @@ public class SqlCategorias extends Conexion{
         
     }
     
-    public boolean modificarCategorias(categoriaProducto catp1){
+    public boolean modificarProductos(Producto prod1){
         
         PreparedStatement ps = null;
         Connection con = getConexion();
-        String sql = "UPDATE categoria SET nombreCategoria=?, descripcionCategoria=? WHERE idCategoria=? ";
+        //String sql = "UPDATE productos SET nombreProducto=?, descripcionProducto=?, precio=?, tamanoProducto=? WHERE idProducto=? ";
+        String sql = "update categoria ca join productos pr on ca.idCategoria = pr.idCategoria SET ca.nombreCategoria=?,pr.nombreProducto=?, pr.descripcionProducto=?, pr.precio=?, tamanoProducto=? where pr.idProducto = ?; ";
         try {
             
             
             ps = con.prepareStatement(sql);
             
-           
-            ps.setString(1, catp1.getNombre());
-            ps.setString(2, catp1.getDescripcion());
-            ps.setInt(3,catp1.getId());
+            ps.setString(1, prod1.getNombreCategoria());
+            ps.setString(2, prod1.getNombre());
+            ps.setString(3, prod1.getDescripcion());
+            ps.setInt(4, prod1.getPrecio());
+            ps.setInt(5, prod1.getTamanoProducto());            
+            ps.setInt(6, prod1.getIdProducto());
             
             ps.execute();
             con.close();
@@ -72,21 +74,20 @@ public class SqlCategorias extends Conexion{
         
     }
     
-    
-    public boolean eliminarCategorias(categoriaProducto catp2){
+    public boolean eliminarProductos(Producto prod2){
         
         PreparedStatement ps = null;
         
         Connection con = getConexion();
-        String sql = "UPDATE categoria SET estadoCategoria=? WHERE idCategoria=? ";
+        String sql = "UPDATE productos SET estadoProductos=? WHERE idProducto=? ";
         try {
             
             
             ps = con.prepareStatement(sql);
             
            
-            ps.setBoolean(1, catp2.isEstadoCategoria());
-            ps.setInt(2,catp2.getId());
+            ps.setBoolean(1, prod2.isEstadoProductos());
+            ps.setInt(2,prod2.getIdProducto());
             
             ps.execute();
             con.close();
@@ -101,6 +102,7 @@ public class SqlCategorias extends Conexion{
         
         
     }
+    
     
     
 }

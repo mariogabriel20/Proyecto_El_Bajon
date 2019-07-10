@@ -20,7 +20,7 @@ public class Conexion {
     private static final String PASSWORD = "root";
     
     
-    public Connection getConexion(){
+    public static Connection getConexion(){
         
         Connection con = null;
 

@@ -1,12 +1,29 @@
 package frames;
 
+import static frames.Categorias.jNombre;
 import java.awt.Cursor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import practica_proyecto.Producto;
+import practica_proyecto.SqlCategorias;
+import practica_proyecto.SqlProductos;
+import practica_proyecto.categoriaProducto;
 
 public class Productos extends javax.swing.JFrame {
 
+    PreparedStatement ps;
+    ResultSet rs;
+    
     public Productos() {
         initComponents();
+        mostrartablaproductos();
+        llenarcomboproductos();
         this.getContentPane().setBackground(new java.awt.Color(102,255,102));
     }
 
@@ -16,29 +33,30 @@ public class Productos extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jEliminar = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1Producto = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jAgregar = new javax.swing.JButton();
         jCategoria = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jTitulo2 = new javax.swing.JLabel();
         jScroll2 = new javax.swing.JScrollPane();
-        jDescripcion = new javax.swing.JTextArea();
+        jDescripcionProducto = new javax.swing.JTextArea();
         jScroll1 = new javax.swing.JScrollPane();
-        jTabla = new javax.swing.JTable();
+        jTablaProductos = new javax.swing.JTable();
         jModificar = new javax.swing.JButton();
         jTitulo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jNombre = new javax.swing.JTextField();
+        jNombreProducto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPrecio = new javax.swing.JTextField();
+        jPrecioProducto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jRegresar = new javax.swing.JButton();
         jBuscar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox3Producto = new javax.swing.JComboBox<>();
+        jIdCategoria = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -52,11 +70,16 @@ public class Productos extends javax.swing.JFrame {
         jEliminar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/eliminar.png"))); // NOI18N
         jEliminar.setText("Eliminar");
+        jEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 130, 40));
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 100, -1));
+        jComboBox1Producto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBox1Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
+        jPanel1.add(jComboBox1Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 100, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Buscar:");
@@ -65,6 +88,11 @@ public class Productos extends javax.swing.JFrame {
         jAgregar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/guardar.png"))); // NOI18N
         jAgregar.setText("Agregar");
+        jAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 400, 120, 40));
 
         jCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-editar-30.png"))); // NOI18N
@@ -84,7 +112,7 @@ public class Productos extends javax.swing.JFrame {
         jPanel1.add(jCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 150, -1, -1));
 
         jComboBox2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "PDF", "EXCEL" }));
         jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(325, 82, -1, -1));
 
         jTitulo2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -93,13 +121,18 @@ public class Productos extends javax.swing.JFrame {
 
         jScroll2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jDescripcion.setColumns(20);
-        jDescripcion.setRows(5);
-        jScroll2.setViewportView(jDescripcion);
+        jDescripcionProducto.setColumns(20);
+        jDescripcionProducto.setRows(5);
+        jScroll2.setViewportView(jDescripcionProducto);
 
         jPanel1.add(jScroll2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 230, 185, 60));
 
-        jTabla.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaProductos = new javax.swing.JTable(){
+            public boolean isCellEditable (int rowIndex, int colIndex){
+                return false;
+            }
+        };
+        jTablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -110,13 +143,23 @@ public class Productos extends javax.swing.JFrame {
                 "idProducto", "Categoría", "Nombre", "Descripción", "Precio"
             }
         ));
-        jScroll1.setViewportView(jTabla);
+        jTablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablaProductosMouseClicked(evt);
+            }
+        });
+        jScroll1.setViewportView(jTablaProductos);
 
         jPanel1.add(jScroll1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 123, -1, 440));
 
         jModificar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/modificar.png"))); // NOI18N
         jModificar.setText("Modificar");
+        jModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 130, 40));
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -130,7 +173,7 @@ public class Productos extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Descripción:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 230, -1, -1));
-        jPanel1.add(jNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, 140, -1));
+        jPanel1.add(jNombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, 140, -1));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Precio:");
@@ -139,7 +182,7 @@ public class Productos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Categoría:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, -1, -1));
-        jPanel1.add(jPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, 60, -1));
+        jPanel1.add(jPrecioProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, 60, -1));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Exportar:");
@@ -166,9 +209,10 @@ public class Productos extends javax.swing.JFrame {
         jLabel7.setText("Tamaño:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 350, -1, -1));
 
-        jComboBox3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 110, -1));
+        jComboBox3Producto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBox3Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "1", "2" }));
+        jPanel1.add(jComboBox3Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 110, -1));
+        jPanel1.add(jIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 80, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,6 +234,126 @@ public class Productos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    private void mostrartablaproductos() {
+
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            jTablaProductos.setModel(modelo);
+            ps = null;
+            rs = null;
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            //String sql = "Select idCategoria,nombreCategoria, descripcionCategoria from categoria  ";
+            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
+                        "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
+                        "where pr.estadoProductos = true;";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Id");
+            modelo.addColumn("Categoria");
+            modelo.addColumn("Nombre Producto");
+            modelo.addColumn("Descripcion");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Tamaño");
+            
+
+            int[] anchos = {50, 85, 85,130,50,50};
+
+            for (int x = 0; x < cantidadColumnas; x++) {
+                jTablaProductos.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+            }
+
+            while (rs.next()) {
+
+                Object[] filas = new Object[cantidadColumnas];
+
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+
+                modelo.addRow(filas);
+
+            }
+           con.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+    
+    private  void llenarcomboproductos(){
+        
+        ps = null;
+        rs = null;
+        
+        
+        
+        try{
+            Connection con = practica_proyecto.Conexion.getConexion();
+            String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                jComboBox1Producto.addItem(rs.getString("nombreCategoria"));
+            }
+            
+            con.close();
+            
+        }catch(SQLException ex){
+            
+            System.err.println(ex.toString());
+            
+        }
+        
+        
+    } 
+    private void obtenerid() {
+
+        ps = null;
+        rs = null;
+
+        try {
+
+            Connection con = practica_proyecto.Conexion.getConexion();
+            boolean estado = true;
+            String nombreCategoria = (String) jComboBox1Producto.getSelectedItem();
+            System.out.println("El seleccionado es: " + nombreCategoria);
+            ps = con.prepareStatement("Select idCategoria From categoria where estadoCategoria = ? And nombreCategoria= ?");
+            ps.setBoolean(1, estado);
+            ps.setString(2, nombreCategoria);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                jIdCategoria.setText(rs.getString("idCategoria"));
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+    }
+    
+     private void limpiarCajas() {
+
+        jComboBox1Producto.setSelectedIndex(0);
+        jNombreProducto.setText(null);
+        jDescripcionProducto.setText(null);
+        jPrecioProducto.setText(null);
+        jComboBox3Producto.setSelectedIndex(0);
+    }
+    
+    
     private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBuscarActionPerformed
@@ -219,15 +383,149 @@ public class Productos extends javax.swing.JFrame {
         jCategoria.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jCategoriaMouseExited
 
+    private void jAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActionPerformed
+        // TODO add your handling code here:
+        obtenerid();
+        //int seleccionado = Integer.parseInt((String) jComboBox3Producto.getSelectedItem());
+        //System.out.println("el tamaño es " + seleccionado);
+        SqlProductos modSql = new SqlProductos();
+        Producto mod = new Producto();
+        
+        mod.setIdCategoria(Integer.parseInt(jIdCategoria.getText()));
+        mod.setNombre(jNombreProducto.getText());        
+        mod.setDescripcion(jDescripcionProducto.getText());
+        mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
+        mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
+        mod.setEstadoProductos(true);
+        
+        if(modSql.registrarProductos(mod))
+        {
+            JOptionPane.showMessageDialog(null, "Producto guardado");
+            mostrartablaproductos();
+            limpiarCajas();
+            jComboBox1Producto.removeAllItems();
+            llenarcomboproductos(); // llena o actualiza el combo box de productos
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al guardar");
+            
+        }
+        
+    }//GEN-LAST:event_jAgregarActionPerformed
+
+    private void jModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActionPerformed
+        // TODO add your handling code here:
+        
+        int Fila = jTablaProductos.getSelectedRow();
+        int idProducto = (int) jTablaProductos.getValueAt(Fila, 0);
+        
+        //JOptionPane.showMessageDialog(null,idCategoria);
+        SqlProductos modSql = new SqlProductos();
+        Producto mod = new Producto();
+        
+        mod.setIdProducto(idProducto);
+        mod.setNombre(jNombreProducto.getText());
+        mod.setDescripcion(jDescripcionProducto.getText());
+        mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
+        mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
+        mod.setNombreCategoria((String) jComboBox1Producto.getSelectedItem());
+        
+        if(modSql.modificarProductos(mod))
+        {
+            JOptionPane.showMessageDialog(null, "Producto modificado");
+            mostrartablaproductos();
+            limpiarCajas();
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al modificar");
+            
+        }
+        
+    }//GEN-LAST:event_jModificarActionPerformed
+
+    private void jTablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaProductosMouseClicked
+        // TODO add your handling code here:
+        // Evento cuando se selecciona una fila de la tabla llena el campo de texto
+        /*jNombreProducto.setText(null);
+        jDescripcionProducto.setText(null);
+        jPrecioProducto.setText(null);
+        jComboBox3Producto.setSelectedIndex(0);
+        */
+        
+        
+        ps = null;
+        rs = null;
+
+        try {
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            int Fila = jTablaProductos.getSelectedRow();
+            String idProducto = jTablaProductos.getValueAt(Fila, 0).toString();
+            
+            
+            
+            //ps = con.prepareStatement("SELECT nombreProducto, descripcionProducto, precio, tamanoProducto FROM productos WHERE idProducto=?");
+            ps = con.prepareStatement("select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
+                        "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
+                        "where pr.idProducto=?");
+            ps.setString(1, idProducto);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                jComboBox1Producto.setSelectedItem(rs.getString("ca.nombreCategoria"));
+                jNombreProducto.setText(rs.getString("pr.nombreProducto"));                
+                jDescripcionProducto.setText(rs.getString("pr.descripcionProducto"));
+                jPrecioProducto.setText(rs.getString("pr.precio"));
+                jComboBox3Producto.setSelectedItem(rs.getString("pr.tamanoProducto"));
+
+            }
+            
+            con.close();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+
+        }
+    }//GEN-LAST:event_jTablaProductosMouseClicked
+
+    private void jEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActionPerformed
+        // TODO add your handling code here:
+        
+        int Fila = jTablaProductos.getSelectedRow();
+        int idProducto = (int) jTablaProductos.getValueAt(Fila, 0);
+        
+        //JOptionPane.showMessageDialog(null,idCategoria);
+        
+        SqlProductos modSql = new SqlProductos();
+        Producto mod = new Producto();
+        
+        mod.setIdProducto(idProducto);        
+        mod.setEstadoProductos(false);
+        
+        if(modSql.eliminarProductos(mod))
+        {
+            JOptionPane.showMessageDialog(null, "Producto eliminado");
+            mostrartablaproductos();
+            limpiarCajas();
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al eliminar");
+            
+        }
+        
+        
+    }//GEN-LAST:event_jEliminarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jAgregar;
     private javax.swing.JTextField jBuscar;
     public static javax.swing.JLabel jCategoria;
-    public static javax.swing.JComboBox<String> jComboBox1;
+    public static javax.swing.JComboBox<String> jComboBox1Producto;
     public static javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    public static javax.swing.JTextArea jDescripcion;
+    private javax.swing.JComboBox<String> jComboBox3Producto;
+    public static javax.swing.JTextArea jDescripcionProducto;
     public static javax.swing.JButton jEliminar;
+    private javax.swing.JTextField jIdCategoria;
     public static javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel jLabel3;
@@ -236,13 +534,13 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     public static javax.swing.JButton jModificar;
-    public static javax.swing.JTextField jNombre;
+    public static javax.swing.JTextField jNombreProducto;
     private javax.swing.JPanel jPanel1;
-    public static javax.swing.JTextField jPrecio;
+    public static javax.swing.JTextField jPrecioProducto;
     public static javax.swing.JButton jRegresar;
     private javax.swing.JScrollPane jScroll1;
     private javax.swing.JScrollPane jScroll2;
-    private javax.swing.JTable jTabla;
+    public static javax.swing.JTable jTablaProductos;
     public static javax.swing.JLabel jTitulo;
     private javax.swing.JLabel jTitulo2;
     // End of variables declaration//GEN-END:variables

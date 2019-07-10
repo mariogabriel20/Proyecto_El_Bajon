@@ -2,27 +2,21 @@ package practica_proyecto;
 
 public class Producto {
 
-    private int id;
+    private int idProducto;
+    private int idCategoria;
     private String nombre;
     private String descripcion;
     private categoriaProducto categoria;
+    private String nombreCategoria;
     private int precio;
+    private int tamanoProducto;
+    private boolean estadoProductos;
 
-    public Producto(int id, String nombre, String descripcion, categoriaProducto categoria, int precio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.categoria = categoria;
-        this.precio = precio;
+    public Producto() {
+        
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     public String getNombre() {
         return nombre;
@@ -56,4 +50,47 @@ public class Producto {
         this.precio = precio;
     }
 
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public int getTamanoProducto() {
+        return tamanoProducto;
+    }
+
+    public void setTamanoProducto(int tamanoProducto) {
+        this.tamanoProducto = tamanoProducto;
+    }
+
+    public boolean isEstadoProductos() {
+        return estadoProductos;
+    }
+
+    public void setEstadoProductos(boolean estadoProductos) {
+        this.estadoProductos = estadoProductos;
+    }
+
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
+    }
+
+    
+    
+    
 }
