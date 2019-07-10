@@ -15,10 +15,12 @@ import java.sql.DriverManager;
 public class Conexion {
     
     
-    private static final String URL = "jdbc:mysql://localhost:3306/bajondb?useTimezone=true&serverTimezone=UTC";
+    
+    private static final String BASE = "bajondb";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
-    
+    //private static final String URL = "jdbc:mysql://localhost:3306/bajondb?useTimezone=true&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/"+ BASE + "?useTimezone=true&serverTimezone=UTC";
     
     public static Connection getConexion(){
         

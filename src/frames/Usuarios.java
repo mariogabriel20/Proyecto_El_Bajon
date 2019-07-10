@@ -1,9 +1,33 @@
 package frames;
 
+import static frames.Categorias.jNombre;
+import static frames.Productos.jComboBox1Producto;
+import static frames.Productos.jDescripcionProducto;
+import static frames.Productos.jNombreProducto;
+import static frames.Productos.jPrecioProducto;
+import static frames.Productos.jTablaProductos;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import practica_proyecto.SqlCategorias;
+import practica_proyecto.SqlUsuarios;
+import practica_proyecto.Usuario;
+import practica_proyecto.categoriaProducto;
+import practica_proyecto.hash;
+
 public class Usuarios extends javax.swing.JFrame {
 
+    PreparedStatement ps;
+    ResultSet rs;
+    
+    
     public Usuarios() {
         initComponents();
+        mostrartablausuarios();
         this.getContentPane().setBackground(new java.awt.Color(102,255,102));
     }
 
@@ -14,12 +38,12 @@ public class Usuarios extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1Usuario = new javax.swing.JComboBox<>();
         jRegresar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jTitulo2 = new javax.swing.JLabel();
         jScroll = new javax.swing.JScrollPane();
-        jTabla = new javax.swing.JTable();
+        jTablaUsuarios = new javax.swing.JTable();
         jAgregar = new javax.swing.JButton();
         jTitulo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -28,13 +52,13 @@ public class Usuarios extends javax.swing.JFrame {
         jModificar = new javax.swing.JButton();
         jPass = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jPassConfirma = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 800, 600));
         setExtendedState(800);
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(810, 634));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
@@ -44,15 +68,15 @@ public class Usuarios extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("idUsuario:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(508, 164, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Tipo de usuario:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(508, 295, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 320, -1, -1));
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Administrador", "Cajero", "" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 292, -1, -1));
+        jComboBox1Usuario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBox1Usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Administrador", "Cajero", " " }));
+        jPanel1.add(jComboBox1Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, -1, -1));
 
         jRegresar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-volver-filled-24.png"))); // NOI18N
@@ -66,13 +90,18 @@ public class Usuarios extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Contraseña:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(508, 250, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, -1, -1));
 
         jTitulo2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTitulo2.setText("Agregar usuario");
         jPanel1.add(jTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(562, 94, -1, -1));
 
-        jTabla.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaUsuarios = new javax.swing.JTable(){
+            public boolean isCellEditable (int rowIndex, int colIndex){
+                return false;
+            }
+        };
+        jTablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null}
@@ -81,7 +110,12 @@ public class Usuarios extends javax.swing.JFrame {
                 "idUsuario", "Nombre", "Contraseña", "Tipo de usuario"
             }
         ));
-        jScroll.setViewportView(jTabla);
+        jTablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablaUsuariosMouseClicked(evt);
+            }
+        });
+        jScroll.setViewportView(jTablaUsuarios);
 
         jPanel1.add(jScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 79, 462, 488));
 
@@ -102,13 +136,18 @@ public class Usuarios extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Nombre:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(508, 207, -1, -1));
-        jPanel1.add(jUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 163, 125, -1));
-        jPanel1.add(jNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 206, 125, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, -1, -1));
+        jPanel1.add(jUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 130, -1));
+        jPanel1.add(jNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, 130, -1));
 
         jModificar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/modificar.png"))); // NOI18N
         jModificar.setText("Modificar");
+        jModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 360, 130, 40));
 
         jPass.addActionListener(new java.awt.event.ActionListener() {
@@ -116,12 +155,17 @@ public class Usuarios extends javax.swing.JFrame {
                 jPassActionPerformed(evt);
             }
         });
-        jPanel1.add(jPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 249, 125, -1));
+        jPanel1.add(jPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 240, 130, -1));
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/eliminar.png"))); // NOI18N
         jButton1.setText("Eliminar");
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 130, 40));
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel5.setText("<html>Confirmar contraseña:</html>");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 110, 40));
+        jPanel1.add(jPassConfirma, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 280, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,12 +187,111 @@ public class Usuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void limpiarCajas() {
+
+        jUser.setText(null);
+        jNombre.setText(null);
+        jPass.setText(null);
+        jPassConfirma.setText(null);
+        jComboBox1Usuario.setSelectedIndex(0);
+        
+        
+    }
+    
+    private void mostrartablausuarios() {
+
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            jTablaUsuarios.setModel(modelo);
+            ps = null;
+            rs = null;
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            String sql = "Select idUsuario,nombreUsuario,contrasena, tipoUsuario from Usuario  ";
+            //String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
+              //          "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
+                //        "where pr.estadoProductos = true;";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("IdUsuario");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Contraseña");
+            modelo.addColumn("Tipo Usuario");
+            
+            
+
+            int[] anchos = {140, 140,140,158};
+
+            for (int x = 0; x < cantidadColumnas; x++) {
+                jTablaUsuarios.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+            }
+
+            while (rs.next()) {
+
+                Object[] filas = new Object[cantidadColumnas];
+
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+
+                modelo.addRow(filas);
+
+            }
+           con.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+    
+    
     private void jPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPassActionPerformed
 
     private void jAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActionPerformed
         // TODO add your handling code here:
+        
+        SqlUsuarios modSql = new SqlUsuarios();
+        Usuario mod = new Usuario();
+        
+        String pass = new String(jPass.getPassword());
+        String passCon = new String(jPassConfirma.getPassword());
+        
+        
+        
+        if(pass.equals(passCon))
+        {
+          String  nuevopass = hash.sha1(pass);
+          
+          mod.setIdUsuario(jUser.getText());
+          mod.setNombreUsuario(jNombre.getText());
+          mod.setContrasena(nuevopass);
+          mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
+          mod.setEstadoUsuario(true);
+          
+          if(modSql.registrarCategorias(mod))
+          {
+              JOptionPane.showMessageDialog(null, "Usuario guardado");
+              mostrartablausuarios();
+              limpiarCajas();
+          } else {
+              
+              JOptionPane.showMessageDialog(null, "Error al guardar usuario");
+          }
+          
+          
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+        }
+        
     }//GEN-LAST:event_jAgregarActionPerformed
 
     private void jRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegresarActionPerformed
@@ -158,22 +301,109 @@ public class Usuarios extends javax.swing.JFrame {
         frame2.show();
     }//GEN-LAST:event_jRegresarActionPerformed
 
+    private void jModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActionPerformed
+        // TODO add your handling code here:
+        
+        SqlUsuarios modSql = new SqlUsuarios();
+        Usuario mod = new Usuario();
+        
+        String pass = new String(jPass.getPassword());
+        String passCon = new String(jPassConfirma.getPassword());
+        
+        
+        
+        
+        if(pass.equals(passCon))
+        {
+          String  nuevopass = hash.sha1(pass);
+          
+          
+          
+          mod.setIdUsuario(jUser.getText());
+          mod.setNombreUsuario(jNombre.getText());
+          mod.setContrasena(nuevopass);
+          mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
+          mod.setEstadoUsuario(true);
+          
+          if(modSql.modificarUsuarios(mod))
+          {
+              JOptionPane.showMessageDialog(null, "Usuario modificado");
+              mostrartablausuarios();
+              limpiarCajas();
+          } else {
+              
+              JOptionPane.showMessageDialog(null, "Error al modificar usuario");
+          }
+          
+          
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+        }
+        
+        
+        
+    }//GEN-LAST:event_jModificarActionPerformed
+
+    private void jTablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaUsuariosMouseClicked
+        // TODO add your handling code here:
+        ps = null;
+        rs = null;
+
+        try {
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            int Fila = jTablaUsuarios.getSelectedRow();
+            String idUsuario = jTablaUsuarios.getValueAt(Fila, 0).toString();
+            
+            
+            
+            //ps = con.prepareStatement("SELECT nombreProducto, descripcionProducto, precio, tamanoProducto FROM productos WHERE idProducto=?");
+            ps = con.prepareStatement("SELECT idUsuario, nombreUsuario, contrasena, tipoUsuario FROM Usuario WHERE idUsuario=?");
+            ps.setString(1, idUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                jUser.setText(rs.getString("idUsuario"));
+                jNombre.setText(rs.getString("nombreUsuario"));
+                //jPass.setText(rs.getString("contrasena"));
+                jComboBox1Usuario.setSelectedItem(rs.getString("tipoUsuario"));
+                
+                
+
+            }
+            
+            con.close();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_jTablaUsuariosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jAgregar;
     public static javax.swing.JButton jButton1;
-    public static javax.swing.JComboBox<String> jComboBox1;
+    public static javax.swing.JComboBox<String> jComboBox1Usuario;
     public static javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel jLabel3;
     public static javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     public static javax.swing.JButton jModificar;
     public static javax.swing.JTextField jNombre;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPasswordField jPass;
+    private javax.swing.JPasswordField jPassConfirma;
     public static javax.swing.JButton jRegresar;
     public static javax.swing.JScrollPane jScroll;
-    public static javax.swing.JTable jTabla;
+    public static javax.swing.JTable jTablaUsuarios;
     public static javax.swing.JLabel jTitulo;
     public static javax.swing.JLabel jTitulo2;
     public static javax.swing.JTextField jUser;
