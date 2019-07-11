@@ -1,11 +1,5 @@
 package frames;
 
-import static frames.Categorias.jNombre;
-import static frames.Productos.jComboBox1Producto;
-import static frames.Productos.jDescripcionProducto;
-import static frames.Productos.jNombreProducto;
-import static frames.Productos.jPrecioProducto;
-import static frames.Productos.jTablaProductos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,22 +7,21 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import practica_proyecto.SqlCategorias;
+
 import practica_proyecto.SqlUsuarios;
 import practica_proyecto.Usuario;
-import practica_proyecto.categoriaProducto;
+
 import practica_proyecto.hash;
 
 public class Usuarios extends javax.swing.JFrame {
 
     PreparedStatement ps;
     ResultSet rs;
-    
-    
+
     public Usuarios() {
         initComponents();
         mostrartablausuarios();
-        this.getContentPane().setBackground(new java.awt.Color(102,255,102));
+        this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +44,7 @@ public class Usuarios extends javax.swing.JFrame {
         jNombre = new javax.swing.JTextField();
         jModificar = new javax.swing.JButton();
         jPass = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        jEliminar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPassConfirma = new javax.swing.JPasswordField();
 
@@ -75,7 +68,7 @@ public class Usuarios extends javax.swing.JFrame {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 320, -1, -1));
 
         jComboBox1Usuario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1Usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Administrador", "Cajero", " " }));
+        jComboBox1Usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "Administrador", "Cajero" }));
         jPanel1.add(jComboBox1Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, -1, -1));
 
         jRegresar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -157,10 +150,15 @@ public class Usuarios extends javax.swing.JFrame {
         });
         jPanel1.add(jPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 240, 130, -1));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/eliminar.png"))); // NOI18N
-        jButton1.setText("Eliminar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 130, 40));
+        jEliminar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/eliminar.png"))); // NOI18N
+        jEliminar.setText("Eliminar");
+        jEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEliminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 130, 40));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("<html>Confirmar contraseña:</html>");
@@ -187,7 +185,6 @@ public class Usuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     private void limpiarCajas() {
 
         jUser.setText(null);
@@ -195,10 +192,9 @@ public class Usuarios extends javax.swing.JFrame {
         jPass.setText(null);
         jPassConfirma.setText(null);
         jComboBox1Usuario.setSelectedIndex(0);
-        
-        
+
     }
-    
+
     private void mostrartablausuarios() {
 
         try {
@@ -209,10 +205,8 @@ public class Usuarios extends javax.swing.JFrame {
             rs = null;
             Connection con = practica_proyecto.Conexion.getConexion();
 
-            String sql = "Select idUsuario,nombreUsuario,contrasena, tipoUsuario from Usuario  ";
-            //String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
-              //          "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
-                //        "where pr.estadoProductos = true;";
+            String sql = "Select idUsuario,nombreUsuario, tipoUsuario from Usuario where estadoUsuario = true  ";
+
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -221,12 +215,10 @@ public class Usuarios extends javax.swing.JFrame {
 
             modelo.addColumn("IdUsuario");
             modelo.addColumn("Nombre");
-            modelo.addColumn("Contraseña");
+            // modelo.addColumn("Contraseña");
             modelo.addColumn("Tipo Usuario");
-            
-            
 
-            int[] anchos = {140, 140,140,158};
+            int[] anchos = {186, 186, 204};
 
             for (int x = 0; x < cantidadColumnas; x++) {
                 jTablaUsuarios.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
@@ -243,55 +235,65 @@ public class Usuarios extends javax.swing.JFrame {
                 modelo.addRow(filas);
 
             }
-           con.close();
+            con.close();
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
 
     }
-    
-    
+
+
     private void jPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPassActionPerformed
 
     private void jAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActionPerformed
         // TODO add your handling code here:
-        
+
         SqlUsuarios modSql = new SqlUsuarios();
         Usuario mod = new Usuario();
-        
+
         String pass = new String(jPass.getPassword());
         String passCon = new String(jPassConfirma.getPassword());
-        
-        
-        
-        if(pass.equals(passCon))
-        {
-          String  nuevopass = hash.sha1(pass);
-          
-          mod.setIdUsuario(jUser.getText());
-          mod.setNombreUsuario(jNombre.getText());
-          mod.setContrasena(nuevopass);
-          mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
-          mod.setEstadoUsuario(true);
-          
-          if(modSql.registrarCategorias(mod))
-          {
-              JOptionPane.showMessageDialog(null, "Usuario guardado");
-              mostrartablausuarios();
-              limpiarCajas();
-          } else {
-              
-              JOptionPane.showMessageDialog(null, "Error al guardar usuario");
-          }
-          
-          
+
+        //if(jComboBox1Usuario.getSelectedItem().equals("Selecciona"))
+        //{
+        //    System.out.println("Lo que esta en la caja es:  " + jComboBox1Usuario.getSelectedItem());
+        //}
+        if (jUser.getText().equals("") || jNombre.getText().equals("") || pass.equals("") || passCon.equals("") || jComboBox1Usuario.getSelectedItem().equals("Selecciona")) {
+
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
         } else {
-            
-            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+
+            if (pass.equals(passCon)) {
+
+                if (modSql.existeUsuario(jUser.getText()) == 0) {
+
+                    String nuevopass = hash.sha1(pass);
+
+                    mod.setIdUsuario(jUser.getText());
+                    mod.setNombreUsuario(jNombre.getText());
+                    mod.setContrasena(nuevopass);
+                    mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
+                    mod.setEstadoUsuario(true);
+
+                    if (modSql.registrarUsuarios(mod)) {
+                        JOptionPane.showMessageDialog(null, "Usuario guardado");
+                        mostrartablausuarios();
+                        limpiarCajas();
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "Error al guardar usuario");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario ya existe");
+                }
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+            }
         }
-        
+
     }//GEN-LAST:event_jAgregarActionPerformed
 
     private void jRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegresarActionPerformed
@@ -303,46 +305,47 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void jModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActionPerformed
         // TODO add your handling code here:
-        
+
         SqlUsuarios modSql = new SqlUsuarios();
         Usuario mod = new Usuario();
-        
+
         String pass = new String(jPass.getPassword());
         String passCon = new String(jPassConfirma.getPassword());
+
         
-        
-        
-        
-        if(pass.equals(passCon))
-        {
-          String  nuevopass = hash.sha1(pass);
-          
-          
-          
-          mod.setIdUsuario(jUser.getText());
-          mod.setNombreUsuario(jNombre.getText());
-          mod.setContrasena(nuevopass);
-          mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
-          mod.setEstadoUsuario(true);
-          
-          if(modSql.modificarUsuarios(mod))
-          {
-              JOptionPane.showMessageDialog(null, "Usuario modificado");
-              mostrartablausuarios();
-              limpiarCajas();
-          } else {
-              
-              JOptionPane.showMessageDialog(null, "Error al modificar usuario");
-          }
-          
-          
+        if (jUser.getText().equals("") || jNombre.getText().equals("") || pass.equals("") || passCon.equals("") || jComboBox1Usuario.getSelectedItem().equals("Selecciona")) {
+                
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
         } else {
             
+            
+            if (pass.equals(passCon)) {
+                
+                
+                
+            String nuevopass = hash.sha1(pass);
+
+            mod.setIdUsuario(jUser.getText());
+            mod.setNombreUsuario(jNombre.getText());
+            mod.setContrasena(nuevopass);
+            mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
+            mod.setEstadoUsuario(true);
+
+            if (modSql.modificarUsuarios(mod)) {
+                JOptionPane.showMessageDialog(null, "Usuario modificado");
+                mostrartablausuarios();
+                limpiarCajas();
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Error al modificar usuario");
+            }
+                
+        } else {
+
             JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
         }
-        
-        
-        
+
+        }
     }//GEN-LAST:event_jModificarActionPerformed
 
     private void jTablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaUsuariosMouseClicked
@@ -355,9 +358,7 @@ public class Usuarios extends javax.swing.JFrame {
 
             int Fila = jTablaUsuarios.getSelectedRow();
             String idUsuario = jTablaUsuarios.getValueAt(Fila, 0).toString();
-            
-            
-            
+
             //ps = con.prepareStatement("SELECT nombreProducto, descripcionProducto, precio, tamanoProducto FROM productos WHERE idProducto=?");
             ps = con.prepareStatement("SELECT idUsuario, nombreUsuario, contrasena, tipoUsuario FROM Usuario WHERE idUsuario=?");
             ps.setString(1, idUsuario);
@@ -369,28 +370,52 @@ public class Usuarios extends javax.swing.JFrame {
                 jNombre.setText(rs.getString("nombreUsuario"));
                 //jPass.setText(rs.getString("contrasena"));
                 jComboBox1Usuario.setSelectedItem(rs.getString("tipoUsuario"));
-                
-                
 
             }
-            
+
             con.close();
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.toString());
 
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jTablaUsuariosMouseClicked
+
+    private void jEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActionPerformed
+        // TODO add your handling code here:
+
+        int Fila = jTablaUsuarios.getSelectedRow();
+        String idUsuario = (String) jTablaUsuarios.getValueAt(Fila, 0);
+
+        //JOptionPane.showMessageDialog(null,idCategoria);
+        System.out.println("el idUsuario es: " + idUsuario);
+
+        SqlUsuarios modSql = new SqlUsuarios();
+        Usuario mod = new Usuario();
+
+        mod.setIdUsuario(idUsuario);
+        mod.setEstadoUsuario(false);
+
+        if (modSql.eliminarUsuarios(mod)) {
+            JOptionPane.showMessageDialog(null, "Usuario eliminado");
+
+            mostrartablausuarios();
+            limpiarCajas();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al eliminar");
+
+        }
+
+    }//GEN-LAST:event_jEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jAgregar;
-    public static javax.swing.JButton jButton1;
     public static javax.swing.JComboBox<String> jComboBox1Usuario;
+    public static javax.swing.JButton jEliminar;
     public static javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel jLabel3;

@@ -3,7 +3,10 @@ package frames;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import practica_proyecto.SqlUsuarios;
 import practica_proyecto.Usuario;
+import practica_proyecto.UsuarioInicio;
+import practica_proyecto.hash;
 
 public class inicioSesion extends javax.swing.JFrame {
 
@@ -149,8 +152,58 @@ public class inicioSesion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+   
+    
     private void jIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarActionPerformed
         login();
+
+        SqlUsuarios modSql = new SqlUsuarios();
+        UsuarioInicio mod = new UsuarioInicio();
+
+        String pass = new String(jPass.getPassword());
+
+        if (!jUser.getText().equals("") || pass.equals("")) {
+            String nuevopass = hash.sha1(pass);
+
+            mod.setIdUsuario(jUser.getText());
+            mod.setContrasena(nuevopass);
+
+            if (modSql.login(mod)) {
+                //this.dispose();
+
+                if (mod.getTipoUsuario().equals("Administrador")) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido/a " + mod.getNombreUsuario());
+                    JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
+                    JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
+
+                    menuPrincipal frame2 = new menuPrincipal();
+                    frame2.setLocationRelativeTo(null);
+                    frame2.setTitle("Menú");
+                    this.setVisible(false);
+                    frame2.setVisible(true);
+
+                } else if (mod.getTipoUsuario().equals("Cajero")) {
+
+                    JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
+                    JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
+
+                    registroPedido frame7 = new registroPedido();
+                    frame7.setLocationRelativeTo(null);
+                    frame7.setTitle("Registro de pedido");
+                    this.setVisible(false);
+                    frame7.setVisible(true);
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ingresar sus datos");
+        }
+
+
     }//GEN-LAST:event_jIniciarActionPerformed
 
     private void jPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPassKeyPressed
