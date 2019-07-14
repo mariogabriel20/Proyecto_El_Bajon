@@ -1,6 +1,5 @@
 package frames;
 
-import static frames.Categorias.jNombre;
 import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,20 +10,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import practica_proyecto.Producto;
-import practica_proyecto.SqlCategorias;
+
 import practica_proyecto.SqlProductos;
-import practica_proyecto.categoriaProducto;
 
 public class Productos extends javax.swing.JFrame {
 
     PreparedStatement ps;
     ResultSet rs;
-    
+
     public Productos() {
         initComponents();
+        jIdCategoria.setVisible(false);
         mostrartablaproductos();
         llenarcomboproductos();
-        this.getContentPane().setBackground(new java.awt.Color(102,255,102));
+        this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
     }
 
     @SuppressWarnings("unchecked")
@@ -234,8 +233,6 @@ public class Productos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
     private void mostrartablaproductos() {
 
         try {
@@ -247,9 +244,9 @@ public class Productos extends javax.swing.JFrame {
             Connection con = practica_proyecto.Conexion.getConexion();
 
             //String sql = "Select idCategoria,nombreCategoria, descripcionCategoria from categoria  ";
-            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
-                        "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
-                        "where pr.estadoProductos = true;";
+            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n"
+                    + "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n"
+                    + "where pr.estadoProductos = true;";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -262,9 +259,8 @@ public class Productos extends javax.swing.JFrame {
             modelo.addColumn("Descripcion");
             modelo.addColumn("Precio");
             modelo.addColumn("Tamaño");
-            
 
-            int[] anchos = {50, 85, 85,130,50,50};
+            int[] anchos = {50, 85, 85, 130, 50, 50};
 
             for (int x = 0; x < cantidadColumnas; x++) {
                 jTablaProductos.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
@@ -281,40 +277,38 @@ public class Productos extends javax.swing.JFrame {
                 modelo.addRow(filas);
 
             }
-           con.close();
+            con.close();
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
 
     }
-    
-    private  void llenarcomboproductos(){
-        
+
+    private void llenarcomboproductos() {
+
         ps = null;
         rs = null;
-        
-        
-        
-        try{
+
+        try {
             Connection con = practica_proyecto.Conexion.getConexion();
             String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 jComboBox1Producto.addItem(rs.getString("nombreCategoria"));
             }
-            
+
             con.close();
-            
-        }catch(SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             System.err.println(ex.toString());
-            
+
         }
-        
-        
-    } 
+
+    }
+
     private void obtenerid() {
 
         ps = null;
@@ -343,8 +337,8 @@ public class Productos extends javax.swing.JFrame {
         }
 
     }
-    
-     private void limpiarCajas() {
+
+    private void limpiarCajas() {
 
         jComboBox1Producto.setSelectedIndex(0);
         jNombreProducto.setText(null);
@@ -353,7 +347,15 @@ public class Productos extends javax.swing.JFrame {
         jComboBox3Producto.setSelectedIndex(0);
     }
     
-    
+    private void buscarProducto(){
+        
+        
+        //Connection con = null;
+        
+        
+    }
+
+
     private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBuscarActionPerformed
@@ -390,56 +392,77 @@ public class Productos extends javax.swing.JFrame {
         //System.out.println("el tamaño es " + seleccionado);
         SqlProductos modSql = new SqlProductos();
         Producto mod = new Producto();
-        
-        mod.setIdCategoria(Integer.parseInt(jIdCategoria.getText()));
-        mod.setNombre(jNombreProducto.getText());        
-        mod.setDescripcion(jDescripcionProducto.getText());
-        mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
-        mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
-        mod.setEstadoProductos(true);
-        
-        if(modSql.registrarProductos(mod))
-        {
-            JOptionPane.showMessageDialog(null, "Producto guardado");
-            mostrartablaproductos();
-            limpiarCajas();
-            jComboBox1Producto.removeAllItems();
-            llenarcomboproductos(); // llena o actualiza el combo box de productos
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al guardar");
-            
+
+        if (jComboBox1Producto.getSelectedItem().equals("Selecciona") || jNombreProducto.getText().equals("") || jDescripcionProducto.getText().equals("") || jPrecioProducto.getText().equals("") || jComboBox3Producto.getSelectedItem().equals("Selecciona")) {
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+        } else {
+
+            if (modSql.existeProducto(jNombreProducto.getText()) == 0) {
+
+                ///
+                mod.setIdCategoria(Integer.parseInt(jIdCategoria.getText()));
+                mod.setNombre(jNombreProducto.getText());
+                mod.setDescripcion(jDescripcionProducto.getText());
+                mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
+                mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
+                mod.setEstadoProductos(true);
+
+                if (modSql.registrarProductos(mod)) {
+                    JOptionPane.showMessageDialog(null, "Producto guardado");
+                    mostrartablaproductos();
+                    limpiarCajas();
+                    jComboBox1Producto.removeAllItems();
+                    llenarcomboproductos(); // llena o actualiza el combo box de productos
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al guardar");
+
+                }
+                ////
+            } else {
+                JOptionPane.showMessageDialog(null, "El producto ya existe");
+            }
+
         }
-        
     }//GEN-LAST:event_jAgregarActionPerformed
 
     private void jModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActionPerformed
         // TODO add your handling code here:
-        
+
         int Fila = jTablaProductos.getSelectedRow();
         int idProducto = (int) jTablaProductos.getValueAt(Fila, 0);
-        
+
         //JOptionPane.showMessageDialog(null,idCategoria);
         SqlProductos modSql = new SqlProductos();
         Producto mod = new Producto();
-        
-        mod.setIdProducto(idProducto);
-        mod.setNombre(jNombreProducto.getText());
-        mod.setDescripcion(jDescripcionProducto.getText());
-        mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
-        mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
-        mod.setNombreCategoria((String) jComboBox1Producto.getSelectedItem());
-        
-        if(modSql.modificarProductos(mod))
-        {
-            JOptionPane.showMessageDialog(null, "Producto modificado");
-            mostrartablaproductos();
-            limpiarCajas();
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al modificar");
-            
+
+        if (jComboBox1Producto.getSelectedItem().equals("Selecciona") || jNombreProducto.getText().equals("") || jDescripcionProducto.getText().equals("") || jPrecioProducto.getText().equals("") || jComboBox3Producto.getSelectedItem().equals("Selecciona")) {
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+        } else {
+
+            if (modSql.existeProducto(jNombreProducto.getText()) == 1 || modSql.existeProducto(jNombreProducto.getText()) == 0 ) {
+
+                ///
+                mod.setIdProducto(idProducto);
+                mod.setNombre(jNombreProducto.getText());
+                mod.setDescripcion(jDescripcionProducto.getText());
+                mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
+                mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
+                mod.setNombreCategoria((String) jComboBox1Producto.getSelectedItem());
+
+                if (modSql.modificarProductos(mod)) {
+                    JOptionPane.showMessageDialog(null, "Producto modificado");
+                    mostrartablaproductos();
+                    limpiarCajas();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modificar");
+
+                }
+                ////
+            } else {
+                JOptionPane.showMessageDialog(null, "El producto ya existe");
+            }
         }
-        
     }//GEN-LAST:event_jModificarActionPerformed
 
     private void jTablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaProductosMouseClicked
@@ -449,9 +472,8 @@ public class Productos extends javax.swing.JFrame {
         jDescripcionProducto.setText(null);
         jPrecioProducto.setText(null);
         jComboBox3Producto.setSelectedIndex(0);
-        */
-        
-        
+         */
+
         ps = null;
         rs = null;
 
@@ -460,28 +482,26 @@ public class Productos extends javax.swing.JFrame {
 
             int Fila = jTablaProductos.getSelectedRow();
             String idProducto = jTablaProductos.getValueAt(Fila, 0).toString();
-            
-            
-            
+
             //ps = con.prepareStatement("SELECT nombreProducto, descripcionProducto, precio, tamanoProducto FROM productos WHERE idProducto=?");
-            ps = con.prepareStatement("select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
-                        "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
-                        "where pr.idProducto=?");
+            ps = con.prepareStatement("select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n"
+                    + "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n"
+                    + "where pr.idProducto=?");
             ps.setString(1, idProducto);
             rs = ps.executeQuery();
 
             while (rs.next()) {
 
                 jComboBox1Producto.setSelectedItem(rs.getString("ca.nombreCategoria"));
-                jNombreProducto.setText(rs.getString("pr.nombreProducto"));                
+                jNombreProducto.setText(rs.getString("pr.nombreProducto"));
                 jDescripcionProducto.setText(rs.getString("pr.descripcionProducto"));
                 jPrecioProducto.setText(rs.getString("pr.precio"));
                 jComboBox3Producto.setSelectedItem(rs.getString("pr.tamanoProducto"));
 
             }
-            
+
             con.close();
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.toString());
 
@@ -490,30 +510,36 @@ public class Productos extends javax.swing.JFrame {
 
     private void jEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActionPerformed
         // TODO add your handling code here:
-        
-        int Fila = jTablaProductos.getSelectedRow();
-        int idProducto = (int) jTablaProductos.getValueAt(Fila, 0);
-        
-        //JOptionPane.showMessageDialog(null,idCategoria);
-        
-        SqlProductos modSql = new SqlProductos();
-        Producto mod = new Producto();
-        
-        mod.setIdProducto(idProducto);        
-        mod.setEstadoProductos(false);
-        
-        if(modSql.eliminarProductos(mod))
-        {
-            JOptionPane.showMessageDialog(null, "Producto eliminado");
-            mostrartablaproductos();
-            limpiarCajas();
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al eliminar");
-            
+
+        int desicion = JOptionPane.showConfirmDialog(null, "¿Esta seguro? No podra desacer esta desicion");
+
+        if (desicion == JOptionPane.YES_OPTION) {
+
+            ///
+            int Fila = jTablaProductos.getSelectedRow();
+            int idProducto = (int) jTablaProductos.getValueAt(Fila, 0);
+
+            //JOptionPane.showMessageDialog(null,idCategoria);
+            SqlProductos modSql = new SqlProductos();
+            Producto mod = new Producto();
+
+            mod.setIdProducto(idProducto);
+            mod.setEstadoProductos(false);
+
+            if (modSql.eliminarProductos(mod)) {
+                JOptionPane.showMessageDialog(null, "Producto eliminado");
+                mostrartablaproductos();
+                limpiarCajas();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar");
+
+            }
+            //
+
         }
-        
-        
+
+
     }//GEN-LAST:event_jEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

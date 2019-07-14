@@ -312,38 +312,34 @@ public class Usuarios extends javax.swing.JFrame {
         String pass = new String(jPass.getPassword());
         String passCon = new String(jPassConfirma.getPassword());
 
-        
         if (jUser.getText().equals("") || jNombre.getText().equals("") || pass.equals("") || passCon.equals("") || jComboBox1Usuario.getSelectedItem().equals("Selecciona")) {
-                
+
             JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
         } else {
-            
-            
+
             if (pass.equals(passCon)) {
-                
-                
-                
-            String nuevopass = hash.sha1(pass);
 
-            mod.setIdUsuario(jUser.getText());
-            mod.setNombreUsuario(jNombre.getText());
-            mod.setContrasena(nuevopass);
-            mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
-            mod.setEstadoUsuario(true);
+                String nuevopass = hash.sha1(pass);
 
-            if (modSql.modificarUsuarios(mod)) {
-                JOptionPane.showMessageDialog(null, "Usuario modificado");
-                mostrartablausuarios();
-                limpiarCajas();
+                mod.setIdUsuario(jUser.getText());
+                mod.setNombreUsuario(jNombre.getText());
+                mod.setContrasena(nuevopass);
+                mod.setTipoUsuario((String) jComboBox1Usuario.getSelectedItem());
+                mod.setEstadoUsuario(true);
+
+                if (modSql.modificarUsuarios(mod)) {
+                    JOptionPane.showMessageDialog(null, "Usuario modificado");
+                    mostrartablausuarios();
+                    limpiarCajas();
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al modificar usuario");
+                }
+
             } else {
 
-                JOptionPane.showMessageDialog(null, "Error al modificar usuario");
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
             }
-                
-        } else {
-
-            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-        }
 
         }
     }//GEN-LAST:event_jModificarActionPerformed
@@ -386,29 +382,33 @@ public class Usuarios extends javax.swing.JFrame {
     private void jEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActionPerformed
         // TODO add your handling code here:
 
-        int Fila = jTablaUsuarios.getSelectedRow();
-        String idUsuario = (String) jTablaUsuarios.getValueAt(Fila, 0);
+        int desicion = JOptionPane.showConfirmDialog(null, "¿Esta seguro? No podra desacer esta desicion");
 
-        //JOptionPane.showMessageDialog(null,idCategoria);
-        System.out.println("el idUsuario es: " + idUsuario);
+        if (desicion == JOptionPane.YES_OPTION) {
 
-        SqlUsuarios modSql = new SqlUsuarios();
-        Usuario mod = new Usuario();
+            int Fila = jTablaUsuarios.getSelectedRow();
+            String idUsuario = (String) jTablaUsuarios.getValueAt(Fila, 0);
 
-        mod.setIdUsuario(idUsuario);
-        mod.setEstadoUsuario(false);
+            //JOptionPane.showMessageDialog(null,idCategoria);
+            System.out.println("el idUsuario es: " + idUsuario);
 
-        if (modSql.eliminarUsuarios(mod)) {
-            JOptionPane.showMessageDialog(null, "Usuario eliminado");
+            SqlUsuarios modSql = new SqlUsuarios();
+            Usuario mod = new Usuario();
 
-            mostrartablausuarios();
-            limpiarCajas();
+            mod.setIdUsuario(idUsuario);
+            mod.setEstadoUsuario(false);
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al eliminar");
+            if (modSql.eliminarUsuarios(mod)) {
+                JOptionPane.showMessageDialog(null, "Usuario eliminado");
 
+                mostrartablausuarios();
+                limpiarCajas();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar");
+
+            }
         }
-
     }//GEN-LAST:event_jEliminarActionPerformed
 
 

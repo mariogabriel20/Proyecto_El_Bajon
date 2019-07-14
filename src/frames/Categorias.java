@@ -18,8 +18,7 @@ public class Categorias extends javax.swing.JFrame {
 
     PreparedStatement ps;
     ResultSet rs;
-    
-    
+
     public Categorias() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
@@ -31,7 +30,7 @@ public class Categorias extends javax.swing.JFrame {
         jNombre.setText(null);
         jDescripcion.setText(null);
     }
-    
+
     private void mostrartabla() {
 
         try {
@@ -71,16 +70,15 @@ public class Categorias extends javax.swing.JFrame {
                 modelo.addRow(filas);
 
             }
-            
+
             con.close();
 
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
 
-      
     }
-    
+
     private void mostrartablaproductos() {
 
         try {
@@ -92,9 +90,9 @@ public class Categorias extends javax.swing.JFrame {
             Connection con = practica_proyecto.Conexion.getConexion();
 
             //String sql = "Select idCategoria,nombreCategoria, descripcionCategoria from categoria  ";
-            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n" +
-                        "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n" +
-                        "where ca.estadoCategoria = 1;";
+            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto \n"
+                    + "from categoria ca join productos pr on ca.idCategoria = pr.idCategoria \n"
+                    + "where ca.estadoCategoria = 1;";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -107,9 +105,8 @@ public class Categorias extends javax.swing.JFrame {
             modelo.addColumn("Descripcion");
             modelo.addColumn("Precio");
             modelo.addColumn("Tamaño");
-            
 
-            int[] anchos = {50, 85, 85,130,50,50};
+            int[] anchos = {50, 85, 85, 130, 50, 50};
 
             for (int x = 0; x < cantidadColumnas; x++) {
                 jTablaProductos.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
@@ -126,43 +123,38 @@ public class Categorias extends javax.swing.JFrame {
                 modelo.addRow(filas);
 
             }
-           con.close();
+            con.close();
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
 
     }
-    
-    
-    private  void llenarcomboproductos(){
-        
+
+    private void llenarcomboproductos() {
+
         ps = null;
         rs = null;
-        
-        
-        
-        try{
+
+        try {
             Connection con = practica_proyecto.Conexion.getConexion();
             String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 jComboBox1Producto.addItem(rs.getString("nombreCategoria"));
             }
-            
+
             con.close();
-            
-        }catch(SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             System.err.println(ex.toString());
-            
+
         }
-        
-        
-    } 
-    
-    
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -316,59 +308,82 @@ public class Categorias extends javax.swing.JFrame {
 
     private void jAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActionPerformed
         //registroPedido botonsaco = new registroPedido();
-        
+
         SqlCategorias modSql = new SqlCategorias();
         categoriaProducto mod = new categoriaProducto();
-        
-        mod.setNombre(jNombre.getText());
-        mod.setDescripcion(jDescripcion.getText());
-        mod.setEstadoCategoria(true);
-        
-        if(modSql.registrarCategorias(mod))
-        {
-            JOptionPane.showMessageDialog(null, "Registro guardado");
-            mostrartabla();
-            limpiarCajas();
-            jComboBox1Producto.removeAllItems();
-            llenarcomboproductos(); // llena o actualiza el combo box de productos
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al guardar");
-            
+
+        if (jNombre.getText().equals("") || jDescripcion.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+
+        } else {
+
+            if (modSql.existeCategoria(jNombre.getText()) == 0) {
+
+                ///
+                mod.setNombre(jNombre.getText());
+                mod.setDescripcion(jDescripcion.getText());
+                mod.setEstadoCategoria(true);
+
+                if (modSql.registrarCategorias(mod)) {
+                    JOptionPane.showMessageDialog(null, "Registro guardado");
+                    mostrartabla();
+                    limpiarCajas();
+                    jComboBox1Producto.removeAllItems();
+                    llenarcomboproductos(); // llena o actualiza el combo box de productos
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al guardar");
+
+                }
+                ///
+            } else {
+                JOptionPane.showMessageDialog(null, "La categoria ya existe");
+            }
         }
-        
     }//GEN-LAST:event_jAgregarActionPerformed
 
     private void jModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActionPerformed
         // TODO add your handling code here:
-        
+
         int Fila = jTable1.getSelectedRow();
         int idCategoria = (int) jTable1.getValueAt(Fila, 0);
-        
+
         //JOptionPane.showMessageDialog(null,idCategoria);
-        
         SqlCategorias modSql = new SqlCategorias();
         categoriaProducto mod = new categoriaProducto();
-        
-        mod.setId(idCategoria);
-        mod.setNombre(jNombre.getText());
-        mod.setDescripcion(jDescripcion.getText());
-        mod.setEstadoCategoria(true);
-        
-        if(modSql.modificarCategorias(mod))
-        {
-            JOptionPane.showMessageDialog(null, "Registro modificado");
-            mostrartabla();
-            mostrartablaproductos();
-            limpiarCajas();
-            jComboBox1Producto.removeAllItems();
-            llenarcomboproductos(); // llena o actualiza el combo box de productos
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al modificar");
-            
+
+        if (jNombre.getText().equals("") || jDescripcion.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+
+        } else {
+
+            if (modSql.existeCategoria(jNombre.getText()) == 0 || modSql.existeCategoria(jNombre.getText()) == 1 ) {
+
+                //
+                mod.setId(idCategoria);
+                mod.setNombre(jNombre.getText());
+                mod.setDescripcion(jDescripcion.getText());
+                mod.setEstadoCategoria(true);
+
+                if (modSql.modificarCategorias(mod)) {
+                    JOptionPane.showMessageDialog(null, "Registro modificado");
+                    mostrartabla();
+                    mostrartablaproductos();
+                    limpiarCajas();
+                    jComboBox1Producto.removeAllItems();
+                    llenarcomboproductos(); // llena o actualiza el combo box de productos
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modificar");
+
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "La categoria ya existe");
+            }
+            ////
         }
-        
-        
-        
+
     }//GEN-LAST:event_jModificarActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -394,9 +409,9 @@ public class Categorias extends javax.swing.JFrame {
                 jDescripcion.setText(rs.getString("descripcionCategoria"));
 
             }
-            
+
             con.close();
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.toString());
 
@@ -406,30 +421,35 @@ public class Categorias extends javax.swing.JFrame {
     private void jEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActionPerformed
         // TODO add your handling code here:
         
-         int Fila = jTable1.getSelectedRow();
+        int desicion = JOptionPane.showConfirmDialog(null, "¿Esta seguro? No podra desacer esta desicion");
+
+        if (desicion == JOptionPane.YES_OPTION) {
+            
+        
+        ///
+        int Fila = jTable1.getSelectedRow();
         int idCategoria = (int) jTable1.getValueAt(Fila, 0);
-        
+
         //JOptionPane.showMessageDialog(null,idCategoria);
-        
         SqlCategorias modSql = new SqlCategorias();
         categoriaProducto mod = new categoriaProducto();
-        
+
         mod.setId(idCategoria);
         mod.setEstadoCategoria(false);
-        
-        if(modSql.eliminarCategorias(mod))
-        {
+
+        if (modSql.eliminarCategorias(mod)) {
             JOptionPane.showMessageDialog(null, "Registro eliminado");
             mostrartabla();
             mostrartablaproductos();
             limpiarCajas();
             jComboBox1Producto.removeAllItems();
             llenarcomboproductos(); // llena o actualiza el combo box de productos
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Error al eliminar");
-            
+
         }
-        
+        ////
+        }
         
         
     }//GEN-LAST:event_jEliminarActionPerformed

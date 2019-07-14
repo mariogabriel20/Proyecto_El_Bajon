@@ -227,8 +227,8 @@ public class inicioSesion extends javax.swing.JFrame {
 
                 if (mod.getTipoUsuario().equals("Administrador")) {
                     JOptionPane.showMessageDialog(null, "Bienvenido/a " + mod.getNombreUsuario());
-                    JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
-                    JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
+                    //JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
+                    //JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
 
                     menuPrincipal frame2 = new menuPrincipal();
                     frame2.setLocationRelativeTo(null);
@@ -238,8 +238,9 @@ public class inicioSesion extends javax.swing.JFrame {
 
                 } else if (mod.getTipoUsuario().equals("Cajero")) {
 
-                    JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
-                    JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
+                    JOptionPane.showMessageDialog(null, "Bienvenido/a " + mod.getNombreUsuario());
+                   // JOptionPane.showMessageDialog(null, "el idUsuario es: " + mod.getIdUsuario());
+                   // JOptionPane.showMessageDialog(null, "el tipo usuario es: " + mod.getTipoUsuario());
 
                     registroPedido frame7 = new registroPedido();
                     frame7.setLocationRelativeTo(null);

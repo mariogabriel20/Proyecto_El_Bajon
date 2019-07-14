@@ -3,6 +3,7 @@ package practica_proyecto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import static practica_proyecto.Conexion.getConexion;
@@ -37,6 +38,38 @@ public class SqlProductos extends Conexion{
             System.out.println(ex.toString());
             JOptionPane.showMessageDialog(null, "Error en conexion");
             return false;
+        }
+         
+        
+    }
+    
+    
+    public int existeProducto(String producto){
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+            String sql = "SELECT COUNT(nombreProducto) FROM productos WHERE nombreProducto=?";
+        try {
+            ps = con.prepareStatement(sql);
+            
+           ps.setString(1, producto);
+           
+          rs =  ps.executeQuery();
+            //con.close();
+            
+            if(rs.next())
+            {
+                return rs.getInt(1);
+                          
+            }
+            con.close();
+            return 2;
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            //JOptionPane.showMessageDialog(null, "Error en conexion SqlUsuarios" );
+            return 2;
         }
          
         
