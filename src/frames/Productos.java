@@ -56,6 +56,8 @@ public class Productos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jComboBox3Producto = new javax.swing.JComboBox<>();
         jIdCategoria = new javax.swing.JTextField();
+        jbtnbuscar = new javax.swing.JButton();
+        jbtnexportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -196,13 +198,7 @@ public class Productos extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, -1, -1));
-
-        jBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBuscarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 84, 120, -1));
+        jPanel1.add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 84, 90, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Tamaño:");
@@ -212,6 +208,22 @@ public class Productos extends javax.swing.JFrame {
         jComboBox3Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "1", "2" }));
         jPanel1.add(jComboBox3Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 110, -1));
         jPanel1.add(jIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 80, -1));
+
+        jbtnbuscar.setText("B");
+        jbtnbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnbuscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbtnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 50, -1));
+
+        jbtnexportar.setText("Ok");
+        jbtnexportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnexportarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbtnexportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -284,6 +296,64 @@ public class Productos extends javax.swing.JFrame {
 
     }
 
+    private void buscartablaproductos() {
+
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            jTablaProductos.setModel(modelo);
+            ps = null;
+            rs = null;
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            
+            String sql = "select pr.idProducto,ca.nombreCategoria,pr.nombreProducto, pr.descripcionProducto, pr.precio,pr.tamanoProducto "
+                    + "from categoria ca join productos pr on ca.idCategoria= pr.idCategoria "
+                    + "WHERE pr.nombreProducto LIKE '%"+ jBuscar.getText() +"%' and pr.estadoProductos = true  "
+                    + "OR ca.nombreCategoria LIKE '%"+ jBuscar.getText() +"%' and pr.estadoProductos = true "
+                    + "OR pr.idProducto LIKE '%"+ jBuscar.getText() +"%' and pr.estadoProductos = true";
+                  
+                       
+                       
+                        
+
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Id");
+            modelo.addColumn("Categoria");
+            modelo.addColumn("Nombre Producto");
+            modelo.addColumn("Descripcion");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Tamaño");
+
+            int[] anchos = {50, 85, 85, 130, 50, 50};
+
+            for (int x = 0; x < cantidadColumnas; x++) {
+                jTablaProductos.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+            }
+
+            while (rs.next()) {
+
+                Object[] filas = new Object[cantidadColumnas];
+
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+
+                modelo.addRow(filas);
+
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+    
     private void llenarcomboproductos() {
 
         ps = null;
@@ -346,19 +416,9 @@ public class Productos extends javax.swing.JFrame {
         jPrecioProducto.setText(null);
         jComboBox3Producto.setSelectedIndex(0);
     }
-    
-    private void buscarProducto(){
-        
-        
-        //Connection con = null;
-        
-        
-    }
 
+   
 
-    private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBuscarActionPerformed
 
     private void jRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegresarActionPerformed
         menuPrincipal frame2 = new menuPrincipal();
@@ -439,7 +499,7 @@ public class Productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
         } else {
 
-            if (modSql.existeProducto(jNombreProducto.getText()) == 1 || modSql.existeProducto(jNombreProducto.getText()) == 0 ) {
+            if (modSql.existeProducto(jNombreProducto.getText()) == 1 || modSql.existeProducto(jNombreProducto.getText()) == 0) {
 
                 ///
                 mod.setIdProducto(idProducto);
@@ -542,6 +602,25 @@ public class Productos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jEliminarActionPerformed
 
+    
+    
+    
+    
+    private void jbtnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnbuscarActionPerformed
+        // TODO add your handling code here:
+        
+        buscartablaproductos();
+        
+    }//GEN-LAST:event_jbtnbuscarActionPerformed
+
+    private void jbtnexportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnexportarActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        
+    }//GEN-LAST:event_jbtnexportarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jAgregar;
     private javax.swing.JTextField jBuscar;
@@ -569,5 +648,7 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JTable jTablaProductos;
     public static javax.swing.JLabel jTitulo;
     private javax.swing.JLabel jTitulo2;
+    private javax.swing.JButton jbtnbuscar;
+    private javax.swing.JButton jbtnexportar;
     // End of variables declaration//GEN-END:variables
 }
