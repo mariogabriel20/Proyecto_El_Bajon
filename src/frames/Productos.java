@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.Cursor;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -198,6 +199,12 @@ public class Productos extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, -1, -1));
+
+        jBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBuscarKeyPressed(evt);
+            }
+        });
         jPanel1.add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 84, 90, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -614,12 +621,14 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnbuscarActionPerformed
 
     private void jbtnexportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnexportarActionPerformed
-        // TODO add your handling code here:
-        
-        
-        
-        
+        // TODO add your handling code here:  
     }//GEN-LAST:event_jbtnexportarActionPerformed
+
+    private void jBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBuscarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            buscartablaproductos();
+        }
+    }//GEN-LAST:event_jBuscarKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jAgregar;

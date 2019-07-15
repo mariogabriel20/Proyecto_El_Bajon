@@ -1,18 +1,28 @@
 package frames;
 
+import static frames.Productos.jComboBox1Producto;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import practica_proyecto.Producto;
 
 public class registroPedido extends javax.swing.JFrame {
 
     //variables globales
     
+    PreparedStatement ps;
+    ResultSet rs;
+    ArrayList<String> categorias = new ArrayList<>();
     categoria1 cat1 = new categoria1();
     CardLayout cl;
 
@@ -22,6 +32,36 @@ public class registroPedido extends javax.swing.JFrame {
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
         Container container = this.getContentPane();
         cl = (CardLayout) jPanel2.getLayout();
+        llenarPanelCategorias();
+    }
+    
+    public void llenarPanelCategorias(){
+        ps = null;
+        rs = null;
+
+        try {
+            Connection con = practica_proyecto.Conexion.getConexion();
+            String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                categorias.add(rs.getString("nombreCategoria"));
+            }
+
+            con.close();
+
+        } catch (SQLException ex) {
+
+            System.err.println(ex.toString());
+
+        }
+        
+        for(int i=0;i<categorias.size();i++){
+            JButton botonCategoria = new JButton();
+            botonCategoria.setText(categorias.get(i));
+            jPanel1.add(botonCategoria);
+        }
     }
 
     @SuppressWarnings("unchecked")
