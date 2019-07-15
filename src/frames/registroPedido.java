@@ -2,7 +2,12 @@ package frames;
 
 import static frames.Productos.jComboBox1Producto;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
+import static java.awt.FlowLayout.LEFT;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,12 +24,12 @@ import practica_proyecto.Producto;
 public class registroPedido extends javax.swing.JFrame {
 
     //variables globales
-    
     PreparedStatement ps;
     ResultSet rs;
     ArrayList<String> categorias = new ArrayList<>();
-    categoria1 cat1 = new categoria1();
+    ArrayList<Producto> productos = new ArrayList<>();
     CardLayout cl;
+    categoria1 cat1 = new categoria1();
 
     public registroPedido() {
         initComponents();
@@ -32,10 +37,10 @@ public class registroPedido extends javax.swing.JFrame {
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
         Container container = this.getContentPane();
         cl = (CardLayout) jPanel2.getLayout();
-        llenarPanelCategorias();
+        llenarCategoriasProductos();
     }
-    
-    public void llenarPanelCategorias(){
+
+    private void llenarCategoriasProductos() {
         ps = null;
         rs = null;
 
@@ -57,10 +62,62 @@ public class registroPedido extends javax.swing.JFrame {
 
         }
         
-        for(int i=0;i<categorias.size();i++){
+        try {
+            Connection con = practica_proyecto.Conexion.getConexion();
+            String sql = "Select pr.nombreProducto, ca.nombreCategoria, pr.precio, pr.tamanoProducto\n" +
+                         "From productos pr join categoria ca on pr.idCategoria = ca.idCategoria where pr.estadoProductos = true";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Producto prod = new Producto();
+                prod.setNombre(rs.getString("nombreProducto"));
+                prod.setNombreCategoria(rs.getString("nombreCategoria"));
+                prod.setPrecio(rs.getInt("precio"));
+                prod.setTamanoProducto(rs.getInt("tamanoProducto"));
+                productos.add(prod);
+            }
+
+            con.close();
+
+        } catch (SQLException ex) {
+
+            System.err.println(ex.toString());
+
+        }
+
+        for (int i = 0; i < categorias.size(); i++) {
+            //declaracion de objetos y variables
+            JButton botonPrueba = new JButton("prueba" + (i + 1));
             JButton botonCategoria = new JButton();
-            botonCategoria.setText(categorias.get(i));
+            JPanel panelCategoria = new JPanel();
+            String aux = "cat" + (i);
+
+            //configuracion del panel de categorias
+            panelCategoria.setLayout(new FlowLayout(LEFT));
+            panelCategoria.setBackground(Color.WHITE);
+            jPanel2.add(panelCategoria, "cat" + i);
+            for (int j = 0; j < productos.size(); j++) {
+                JButton botonProducto = new JButton();
+                botonProducto.setText(productos.get(j).getNombre());
+                if(productos.get(j).getNombreCategoria().equals(categorias.get(i))){
+                    panelCategoria.add(botonProducto);
+                }
+            }
+            jPanel2.add(panelCategoria, aux);
+
+            //configuracion de botones de categorias
             jPanel1.add(botonCategoria);
+            botonCategoria.setText(categorias.get(i));
+            botonCategoria.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cl.show(jPanel2, aux);
+                    SwingUtilities.updateComponentTreeUI(registroPedido.this);
+                    registroPedido.this.repaint();
+                }
+            });
+
         }
     }
 
@@ -71,13 +128,7 @@ public class registroPedido extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        categoria2 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jTitulo = new javax.swing.JLabel();
         jGuardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -98,56 +149,8 @@ public class registroPedido extends javax.swing.JFrame {
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel2.setLayout(new java.awt.CardLayout());
 
-        categoria2.setMaximumSize(new java.awt.Dimension(452, 291));
-        categoria2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jButton4.setText("Cuarto de libra");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        categoria2.add(jButton4);
-
-        jButton5.setText("Big Mac");
-        categoria2.add(jButton5);
-
-        jPanel2.add(categoria2, "cat2");
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/categoria_hamburguesa.png"))); // NOI18N
-        jButton1.setPreferredSize(new java.awt.Dimension(80, 80));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1);
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/categoria_completo.png"))); // NOI18N
-        jButton2.setMaximumSize(new java.awt.Dimension(80, 80));
-        jButton2.setMinimumSize(new java.awt.Dimension(80, 80));
-        jButton2.setPreferredSize(new java.awt.Dimension(80, 80));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/categoría_taco.png"))); // NOI18N
-        jButton3.setMaximumSize(new java.awt.Dimension(80, 80));
-        jButton3.setMinimumSize(new java.awt.Dimension(80, 80));
-        jButton3.setPreferredSize(new java.awt.Dimension(80, 80));
-        jButton3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/categoría_taco.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3);
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jTitulo.setText("Registro de pedido");
@@ -155,11 +158,6 @@ public class registroPedido extends javax.swing.JFrame {
         jGuardar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-guardar-cerrar-48.png"))); // NOI18N
         jGuardar.setText("Guardar");
-        jGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jGuardarActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("A pagar");
@@ -180,7 +178,7 @@ public class registroPedido extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Categoría", "Nombre", "Cantidad", "Valor unitario", "Importe"
+                "Categoría", "Nombre", "Cantidad", "Valor unitario", "Tamaño"
             }
         ));
         jScroll3.setViewportView(jTabla);
@@ -296,36 +294,13 @@ public class registroPedido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cl.show(jPanel2, "cat2");
-        SwingUtilities.updateComponentTreeUI(this);
-        this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jPanel2.add(cat1, "cat1");
-        cl.show(jPanel2, "cat1");
-        SwingUtilities.updateComponentTreeUI(this);
-        this.repaint();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
-        JButton boton = new JButton("boton");
-        categoria2.add(boton);
-        categoria2.updateUI();
-    }//GEN-LAST:event_jGuardarActionPerformed
-
     private void jAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnularActionPerformed
         ImageIcon icon = new ImageIcon("src/Images&icons/icons8-pregunta-40.png");
         int op = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres anular el pedido?", "Anular Pedido", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
         if (op == 0) {
-            
+
         }
     }//GEN-LAST:event_jAnularActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCerrarSesionActionPerformed
         inicioSesion frame1 = new inicioSesion();
@@ -334,19 +309,9 @@ public class registroPedido extends javax.swing.JFrame {
         frame1.setVisible(true);
     }//GEN-LAST:event_jCerrarSesionActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        System.out.println("Ha seleccionado cuarto de libra");
-    }//GEN-LAST:event_jButton4ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JPanel categoria2;
     public static javax.swing.JButton jAnular;
-    public static javax.swing.JButton jButton1;
-    public static javax.swing.JButton jButton2;
-    public static javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     public static javax.swing.JButton jCerrarSesion;
     public static javax.swing.JComboBox<String> jComboBox1;
     public static javax.swing.JButton jGuardar;
@@ -354,7 +319,7 @@ public class registroPedido extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel2;
     public static javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel6;
+    public static javax.swing.JPanel jPanel6;
     public static javax.swing.JScrollPane jScroll3;
     public static javax.swing.JTable jTabla;
     public static javax.swing.JLabel jTitulo;

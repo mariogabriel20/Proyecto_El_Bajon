@@ -6,7 +6,6 @@ public class Producto {
     private int idCategoria;
     private String nombre;
     private String descripcion;
-    private categoriaProducto categoria;
     private String nombreCategoria;
     private int precio;
     private int tamanoProducto;
@@ -15,8 +14,6 @@ public class Producto {
     public Producto() {
         
     }
-
-    
 
     public String getNombre() {
         return nombre;
@@ -32,14 +29,6 @@ public class Producto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public categoriaProducto getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(categoriaProducto categoria) {
-        this.categoria = categoria;
     }
 
     public int getPrecio() {
