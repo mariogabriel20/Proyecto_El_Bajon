@@ -116,10 +116,18 @@ public class menuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCerrarSesionActionPerformed
+        /*
         inicioSesion frame1 = new inicioSesion();
         frame1.setLocationRelativeTo(null);
         this.setVisible(false);
         frame1.setVisible(true);
+        */
+        ini frame2 = new ini();
+        frame2.setLocationRelativeTo(null);
+        this.setVisible(false);
+        frame2.setVisible(true);
+        
+        
     }//GEN-LAST:event_jCerrarSesionActionPerformed
 
     private void jUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUsuariosActionPerformed
