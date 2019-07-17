@@ -9,13 +9,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import static java.awt.FlowLayout.LEFT;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -46,6 +49,14 @@ public class registroPedido extends javax.swing.JFrame {
         panelCategorias.setPreferredSize(new Dimension(444, 630));
         llenarCategoriasProductos();
         modelo = (DefaultTableModel) jTabla.getModel();
+        
+        try{
+            
+         Image img  = ImageIO.read(new File("icono2.png")); 
+         this.setIconImage(img);
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     private void llenarCategoriasProductos() {

@@ -13,6 +13,9 @@ import practica_proyecto.SqlCategorias;
 import practica_proyecto.categoriaProducto;
 import practica_proyecto.Conexion;
 import static frames.Productos.jComboBox1Producto;
+import java.awt.Image;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class Categorias extends javax.swing.JFrame {
 
@@ -23,6 +26,14 @@ public class Categorias extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
         mostrartabla();
+        
+        try{
+            
+         Image img  = ImageIO.read(new File("icono2.png")); 
+         this.setIconImage(img);
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     private void limpiarCajas() {

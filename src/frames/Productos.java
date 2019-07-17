@@ -1,12 +1,15 @@
 package frames;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +28,14 @@ public class Productos extends javax.swing.JFrame {
         mostrartablaproductos();
         llenarcomboproductos();
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
+        
+        try{
+            
+         Image img  = ImageIO.read(new File("icono2.png")); 
+         this.setIconImage(img);
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     @SuppressWarnings("unchecked")

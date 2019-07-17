@@ -1,10 +1,23 @@
 package frames;
 
+import java.awt.Image;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 public class menuPrincipal extends javax.swing.JFrame {
 
     public menuPrincipal() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
+        
+        try{
+            
+         Image img  = ImageIO.read(new File("icono2.png")); 
+         this.setIconImage(img);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
     }
 
     @SuppressWarnings("unchecked")

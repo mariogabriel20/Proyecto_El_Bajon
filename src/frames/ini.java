@@ -1,21 +1,39 @@
 package frames;
 
-import static frames.inicioSesion.jPass;
-import static frames.inicioSesion.jUser;
+
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 import javax.swing.JOptionPane;
 import practica_proyecto.SqlUsuarios;
 import practica_proyecto.UsuarioInicio;
 import practica_proyecto.hash;
+
 
 public class ini extends javax.swing.JFrame {
 
     public ini() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        try{
+            
+         Image img  = ImageIO.read(new File("icono2.png")); 
+         this.setIconImage(img);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
+        
+        
     }
+    
+    
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
