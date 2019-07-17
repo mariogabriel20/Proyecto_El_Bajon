@@ -199,7 +199,7 @@ public class registroPedido extends javax.swing.JFrame {
         jPanel6.setPreferredSize(new java.awt.Dimension(980, 602));
 
         metodoPago.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Efectivo", "Tarjeta de débito", "Tarjeta de crédito" }));
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jTitulo.setText("Registro de pedido");
@@ -364,7 +364,7 @@ public class registroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_jAnularActionPerformed
 
     private void jCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCerrarSesionActionPerformed
-        inicioSesion frame1 = new inicioSesion();
+        ini frame1 = new ini();
         frame1.setLocationRelativeTo(null);
         this.setVisible(false);
         frame1.setVisible(true);

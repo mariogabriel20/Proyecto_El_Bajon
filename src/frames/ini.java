@@ -21,7 +21,6 @@ public class ini extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jSalir = new javax.swing.JButton();
         jNombreUser = new javax.swing.JLabel();
         jPassUsuario = new javax.swing.JLabel();
@@ -29,16 +28,13 @@ public class ini extends javax.swing.JFrame {
         jPass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jIniciar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(470, 550));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(490, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/logo_bajon.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, 230));
 
         jSalir.setBackground(java.awt.Color.green);
         jSalir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -105,8 +101,11 @@ public class ini extends javax.swing.JFrame {
         });
         getContentPane().add(jIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/logo_bajon.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/fondo2.jpg"))); // NOI18N
-        getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-260, -120, 750, 810));
+        getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-260, -250, 750, 810));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,8 +215,8 @@ public class ini extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jIniciar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelFondo;
     private javax.swing.JLabel jNombreUser;
     private javax.swing.JPasswordField jPass;
