@@ -4,6 +4,7 @@ import static frames.Productos.jComboBox1Producto;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import static java.awt.FlowLayout.LEFT;
@@ -117,14 +118,14 @@ public class registroPedido extends javax.swing.JFrame {
                             if (modelo.getValueAt(h, 1).equals(productos.get(index).getNombre())) {
                                 int aux = Integer.parseInt((String) modelo.getValueAt(h, 2)) + 1;
                                 modelo.removeRow(h);
-                                modelo.insertRow(0, new Object[]{productos.get(index).getNombreCategoria(), productos.get(index).getNombre(), Integer.toString(aux), Integer.toString(productos.get(index).getPrecio()), productos.get(index).getTamanoProducto()});
+                                modelo.insertRow(0, new Object[]{productos.get(index).getNombreCategoria(), productos.get(index).getNombre(), Integer.toString(aux), Integer.toString(productos.get(index).getPrecio()), Integer.toString(productos.get(index).getTamanoProducto())});
                                 actualizarPrecioTotal();
                                 bandera = 1;
                                 break;
                             }
                         }
                         if (bandera == 0) {
-                            modelo.insertRow(modelo.getRowCount(), new Object[]{productos.get(index).getNombreCategoria(), productos.get(index).getNombre(), Integer.toString(1), Integer.toString(productos.get(index).getPrecio()), productos.get(index).getTamanoProducto()});
+                            modelo.insertRow(modelo.getRowCount(), new Object[]{productos.get(index).getNombreCategoria(), productos.get(index).getNombre(), Integer.toString(1), Integer.toString(productos.get(index).getPrecio()), Integer.toString(productos.get(index).getTamanoProducto())});
                             actualizarPrecioTotal();
                         }
                     }
@@ -191,28 +192,36 @@ public class registroPedido extends javax.swing.JFrame {
         panelCategorias = new javax.swing.JPanel();
         ScrollProducto = new javax.swing.JScrollPane();
         panelProductos = new javax.swing.JPanel();
+        masCantidad = new javax.swing.JLabel();
+        menosCantidad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 255, 153));
 
         jPanel6.setBackground(new java.awt.Color(204, 255, 204));
         jPanel6.setPreferredSize(new java.awt.Dimension(980, 602));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         metodoPago.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Efectivo", "Tarjeta de débito", "Tarjeta de crédito" }));
+        jPanel6.add(metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 396, -1, -1));
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jTitulo.setText("Registro de pedido");
+        jPanel6.add(jTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(381, 11, -1, -1));
 
         jGuardar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-guardar-cerrar-48.png"))); // NOI18N
         jGuardar.setText("Guardar");
+        jPanel6.add(jGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 462, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("A pagar");
+        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 356, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Método de pago");
+        jPanel6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 356, -1, -1));
 
         jTabla.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -226,6 +235,8 @@ public class registroPedido extends javax.swing.JFrame {
         jTabla.setFocusable(false);
         ScrollTabla.setViewportView(jTabla);
 
+        jPanel6.add(ScrollTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 412, -1, 107));
+
         jAnular.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-cancelar-48.png"))); // NOI18N
         jAnular.setText("Anular");
@@ -234,6 +245,7 @@ public class registroPedido extends javax.swing.JFrame {
                 jAnularActionPerformed(evt);
             }
         });
+        jPanel6.add(jAnular, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 462, -1, -1));
 
         jCerrarSesion.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-change-user-30.png"))); // NOI18N
@@ -243,16 +255,20 @@ public class registroPedido extends javax.swing.JFrame {
                 jCerrarSesionActionPerformed(evt);
             }
         });
+        jPanel6.add(jCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(801, 530, -1, -1));
 
         precioTotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         precioTotal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         precioTotal.setFocusable(false);
+        jPanel6.add(precioTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 392, 80, -1));
 
         panelCategorias.setBackground(new java.awt.Color(255, 255, 255));
         panelCategorias.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Categorías", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 3, 14))); // NOI18N
         panelCategorias.setPreferredSize(new java.awt.Dimension(444, 305));
         panelCategorias.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         ScrollCategoria.setViewportView(panelCategorias);
+
+        jPanel6.add(ScrollCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 46, 464, 304));
 
         panelProductos.setBackground(new java.awt.Color(255, 255, 255));
         panelProductos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 3, 14))); // NOI18N
@@ -261,79 +277,39 @@ public class registroPedido extends javax.swing.JFrame {
         ScrollProducto.setViewportView(panelProductos);
         panelProductos.getAccessibleContext().setAccessibleDescription("");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(82, 82, 82)
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jGuardar)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jAnular)
-                                        .addGap(0, 173, Short.MAX_VALUE))))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(ScrollCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ScrollTabla)
-                            .addComponent(ScrollProducto)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCerrarSesion)))
-                .addContainerGap())
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(381, 381, 381)
-                .addComponent(jTitulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ScrollCategoria)
-                    .addComponent(ScrollProducto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addGap(76, 76, 76)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jGuardar)
-                                .addComponent(jAnular)))
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addComponent(jCerrarSesion)
-                .addContainerGap())
-        );
+        jPanel6.add(ScrollProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 46, 452, 304));
+
+        masCantidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-más-24.png"))); // NOI18N
+        masCantidad.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                masCantidadMouseMoved(evt);
+            }
+        });
+        masCantidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                masCantidadMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                masCantidadMouseExited(evt);
+            }
+        });
+        jPanel6.add(masCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(706, 377, -1, -1));
+
+        menosCantidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-menos-24.png"))); // NOI18N
+        menosCantidad.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                menosCantidadMouseMoved(evt);
+            }
+        });
+        menosCantidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menosCantidadMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menosCantidadMouseExited(evt);
+            }
+        });
+        jPanel6.add(menosCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(748, 377, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -370,6 +346,65 @@ public class registroPedido extends javax.swing.JFrame {
         frame1.setVisible(true);
     }//GEN-LAST:event_jCerrarSesionActionPerformed
 
+    private void menosCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menosCantidadMouseClicked
+        int index = jTabla.getSelectedRow();
+        System.out.println(index);
+        if (index > -1) {
+            if (Integer.parseInt((String) modelo.getValueAt(index, 2)) > 1) {
+                int aux = Integer.parseInt((String) modelo.getValueAt(index, 2)) - 1;
+                String nombreCategoria = (String) modelo.getValueAt(index, 0);
+                String nombre = (String) modelo.getValueAt(index, 1);
+                int precio = Integer.parseInt((String) modelo.getValueAt(index, 3));
+                int tamano = Integer.parseInt((String) modelo.getValueAt(index, 4));
+                
+                modelo.removeRow(index);
+                modelo.insertRow(0, new Object[]{nombreCategoria, nombre, Integer.toString(aux), Integer.toString(precio), Integer.toString(tamano)});
+                actualizarPrecioTotal();
+            } else {
+                modelo.removeRow(index);
+                actualizarPrecioTotal();
+            }
+        }
+    }//GEN-LAST:event_menosCantidadMouseClicked
+
+    private void menosCantidadMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menosCantidadMouseMoved
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-menos-32.png");
+        menosCantidad.setIcon(icon);
+        menosCantidad.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_menosCantidadMouseMoved
+
+    private void menosCantidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menosCantidadMouseExited
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-menos-24.png");
+        menosCantidad.setIcon(icon);
+        menosCantidad.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_menosCantidadMouseExited
+
+    private void masCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masCantidadMouseClicked
+        int index = jTabla.getSelectedRow();
+        if (index > -1){
+            int aux = Integer.parseInt((String) modelo.getValueAt(index, 2)) + 1;
+            String nombreCategoria = (String) modelo.getValueAt(index, 0);
+            String nombre = (String) modelo.getValueAt(index, 1);
+            int precio = Integer.parseInt((String) modelo.getValueAt(index, 3));
+            int tamano = Integer.parseInt((String) modelo.getValueAt(index, 4));
+            modelo.removeRow(index);
+            modelo.insertRow(0, new Object[]{nombreCategoria, nombre, Integer.toString(aux), Integer.toString(precio), Integer.toString(tamano)});
+            actualizarPrecioTotal();
+        }
+    }//GEN-LAST:event_masCantidadMouseClicked
+
+    private void masCantidadMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masCantidadMouseMoved
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-más-32.png");
+        masCantidad.setIcon(icon);
+        masCantidad.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_masCantidadMouseMoved
+
+    private void masCantidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masCantidadMouseExited
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-más-24.png");
+        masCantidad.setIcon(icon);
+        masCantidad.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_masCantidadMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollCategoria;
@@ -383,6 +418,8 @@ public class registroPedido extends javax.swing.JFrame {
     public static javax.swing.JPanel jPanel6;
     public static javax.swing.JTable jTabla;
     public static javax.swing.JLabel jTitulo;
+    private javax.swing.JLabel masCantidad;
+    private javax.swing.JLabel menosCantidad;
     public static javax.swing.JComboBox<String> metodoPago;
     public static javax.swing.JPanel panelCategorias;
     public static javax.swing.JPanel panelProductos;
