@@ -66,7 +66,7 @@ public class Productos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jComboBox3Producto = new javax.swing.JComboBox<>();
         jIdCategoria = new javax.swing.JTextField();
-        jbtnbuscar = new javax.swing.JButton();
+        Buscar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -216,13 +216,21 @@ public class Productos extends javax.swing.JFrame {
         jPanel1.add(jComboBox3Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 110, -1));
         jPanel1.add(jIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 80, -1));
 
-        jbtnbuscar.setText("B");
-        jbtnbuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnbuscarActionPerformed(evt);
+        Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-buscar-en-la-lista-24.png"))); // NOI18N
+        Buscar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                BuscarMouseMoved(evt);
             }
         });
-        jPanel1.add(jbtnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 50, -1));
+        Buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                BuscarMouseExited(evt);
+            }
+        });
+        jPanel1.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -606,20 +614,30 @@ public class Productos extends javax.swing.JFrame {
     
     
     
-    private void jbtnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnbuscarActionPerformed
-        // TODO add your handling code here:
-        
-        buscartablaproductos();
-        
-    }//GEN-LAST:event_jbtnbuscarActionPerformed
-
     private void jBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBuscarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             buscartablaproductos();
         }
     }//GEN-LAST:event_jBuscarKeyPressed
 
+    private void BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarMouseClicked
+        buscartablaproductos();
+    }//GEN-LAST:event_BuscarMouseClicked
+
+    private void BuscarMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarMouseMoved
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-buscar-en-la-lista-30.png");
+        Buscar.setIcon(icon);
+        Buscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_BuscarMouseMoved
+
+    private void BuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarMouseExited
+        ImageIcon icon = new ImageIcon("src/Images&icons/icons8-buscar-en-la-lista-24.png");
+        Buscar.setIcon(icon);
+        Buscar.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_BuscarMouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Buscar;
     public static javax.swing.JButton jAgregar;
     private javax.swing.JTextField jBuscar;
     public static javax.swing.JLabel jCategoria;
@@ -644,6 +662,5 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JTable jTablaProductos;
     public static javax.swing.JLabel jTitulo;
     private javax.swing.JLabel jTitulo2;
-    private javax.swing.JButton jbtnbuscar;
     // End of variables declaration//GEN-END:variables
 }
