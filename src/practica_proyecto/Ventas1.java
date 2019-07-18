@@ -77,6 +77,9 @@ public class Ventas1 {
     public void setFolio(int folio) {
         this.folio = folio;
     }
+
+   
+
     
     
     

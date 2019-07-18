@@ -435,7 +435,12 @@ public class registroPedido extends javax.swing.JFrame {
     private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
         // TODO add your handling code here:
         Date fecha = new Date();
-        //SimpleDateFormat formatofecha = new SimpleDateFormat("yyyy-MM-dd");
+        long d = fecha.getTime();
+        
+        java.sql.Date f = new java.sql.Date(d);
+        
+        
+        SimpleDateFormat formatofecha = new SimpleDateFormat("yyyy-MM-dd");
         int metodo = 0;
         
         
@@ -460,11 +465,16 @@ public class registroPedido extends javax.swing.JFrame {
 
             modo.setIdUsuario(idUsuario.getText());
             System.out.println("el id es" + idUsuario.getText());
-            modo.setDate(fecha);
-            System.out.println("la fecha es: " + fecha);
+            //modo.setDatee((java.sql.Date) fecha);
+            //modo.setDatee(new java.sql.Date(fecha));
+            modo.setDate(f);
+            //modo.setDatee(f);
+            System.out.println("la fecha es: " + modo.getDate());
             modo.setMetodoPago(metodo);
-            System.out.println("el metodo es : " + metodo );
+           System.out.println("el metodo es : " + metodo );
             modo.setValorTotal(Integer.parseInt(precioTotal.getText().substring(1)));
+           int total = Integer.parseInt(precioTotal.getText().substring(1));
+           System.out.println("el total es: "+total);
             
             if(modSql.registrarVentas(modo)){
                 

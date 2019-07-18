@@ -23,13 +23,16 @@ public class SqlVentas extends Conexion{
         
         PreparedStatement ps = null;
         Connection con = getConexion();
-        String sql = "INSERT INTO Usuario (idUsuario,fechaVenta,metodoPago,valorTotal) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO ventas (idUsuario,fechaVenta,metodoPago,valorTotal) VALUES (?,?,?,?)";
         try {
             ps = con.prepareStatement(sql);
             
             
            ps.setString(1, vts.getIdUsuario());
            ps.setDate(2, (Date) vts.getDate());
+          
+            System.out.println("la fecha que se inserta es: " + vts.getDate());
+        
            ps.setInt(3, vts.getMetodoPago());
            ps.setInt(4, vts.getValorTotal());
            
@@ -41,7 +44,7 @@ public class SqlVentas extends Conexion{
             
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-            JOptionPane.showMessageDialog(null, "Error en conexion SqlUsuarios registrarUsuarios" );
+            JOptionPane.showMessageDialog(null, "Error en conexion SqlVentas registrarVentas" );
             return false;
         }
          
