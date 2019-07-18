@@ -88,7 +88,6 @@ public class Productos extends javax.swing.JFrame {
         jPanel1.add(jEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 130, 40));
 
         jComboBox1Producto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
         jPanel1.add(jComboBox1Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 100, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -371,7 +370,9 @@ public class Productos extends javax.swing.JFrame {
             String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-
+            
+            jComboBox1Producto.addItem("Selecciona");
+            
             while (rs.next()) {
                 jComboBox1Producto.addItem(rs.getString("nombreCategoria"));
             }
@@ -610,9 +611,6 @@ public class Productos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jEliminarActionPerformed
 
-    
-    
-    
     
     private void jBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBuscarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {

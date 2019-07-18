@@ -151,6 +151,8 @@ public class Categorias extends javax.swing.JFrame {
             String sql = "Select nombreCategoria From categoria where estadoCategoria = true";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
+            
+            jComboBox1Producto.addItem("Selecciona");
 
             while (rs.next()) {
                 jComboBox1Producto.addItem(rs.getString("nombreCategoria"));
