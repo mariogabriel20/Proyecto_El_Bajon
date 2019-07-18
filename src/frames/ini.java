@@ -208,6 +208,7 @@ public class ini extends javax.swing.JFrame {
                     frame2.setTitle("Menú");
                     this.setVisible(false);
                     frame2.setVisible(true);
+                    
 
                 } else if (mod.getTipoUsuario().equals("Cajero")) {
 
@@ -220,6 +221,9 @@ public class ini extends javax.swing.JFrame {
                     frame7.setTitle("Registro de pedido");
                     this.setVisible(false);
                     frame7.setVisible(true);
+                    
+                    registroPedido.idUsuario.setText(mod.getIdUsuario());
+                    
                 }
 
             } else {
@@ -240,6 +244,6 @@ public class ini extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPass;
     private javax.swing.JLabel jPassUsuario;
     private javax.swing.JButton jSalir;
-    private javax.swing.JTextField jUser;
+    public static javax.swing.JTextField jUser;
     // End of variables declaration//GEN-END:variables
 }

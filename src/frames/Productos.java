@@ -484,6 +484,7 @@ public class Productos extends javax.swing.JFrame {
                 mod.setPrecio(Integer.parseInt(jPrecioProducto.getText()));
                 mod.setTamanoProducto(Integer.parseInt((String) jComboBox3Producto.getSelectedItem()));
                 mod.setEstadoProductos(true);
+                
 
                 if (modSql.registrarProductos(mod)) {
                     JOptionPane.showMessageDialog(null, "Producto guardado");

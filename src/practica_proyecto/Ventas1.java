@@ -1,9 +1,14 @@
+
 package practica_proyecto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Ventas {
+/**
+ *
+ * @author migfe
+ */
+public class Ventas1 {
     
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
@@ -14,7 +19,7 @@ public class Ventas {
     private int valorTotal;
     private int folio;
 
-    public Ventas() {
+    public Ventas1() {
     }
 
     public SimpleDateFormat getFormat() {
@@ -72,5 +77,9 @@ public class Ventas {
     public void setFolio(int folio) {
         this.folio = folio;
     }
+    
+    
+    
+    
     
 }

@@ -1,6 +1,5 @@
 package frames;
 
-import static frames.Productos.jComboBox1Producto;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -17,7 +16,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,9 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import practica_proyecto.Producto;
+import practica_proyecto.SqlVentas;
+import practica_proyecto.UsuarioInicio;
+import practica_proyecto.Ventas1;
 
 public class registroPedido extends javax.swing.JFrame {
 
@@ -49,12 +53,12 @@ public class registroPedido extends javax.swing.JFrame {
         panelCategorias.setPreferredSize(new Dimension(444, 630));
         llenarCategoriasProductos();
         modelo = (DefaultTableModel) jTabla.getModel();
-        
-        try{
-            
-         Image img  = ImageIO.read(new File("icono2.png")); 
-         this.setIconImage(img);
-        }catch(Exception e){
+
+        try {
+
+            Image img = ImageIO.read(new File("icono2.png"));
+            this.setIconImage(img);
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
@@ -205,6 +209,7 @@ public class registroPedido extends javax.swing.JFrame {
         panelProductos = new javax.swing.JPanel();
         masCantidad = new javax.swing.JLabel();
         menosCantidad = new javax.swing.JLabel();
+        idUsuario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 255, 153));
@@ -214,7 +219,7 @@ public class registroPedido extends javax.swing.JFrame {
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         metodoPago.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Efectivo", "Tarjeta de débito", "Tarjeta de crédito" }));
+        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "Efectivo", "Tarjeta de débito", "Tarjeta de crédito" }));
         jPanel6.add(metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 396, -1, -1));
 
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -224,6 +229,11 @@ public class registroPedido extends javax.swing.JFrame {
         jGuardar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-guardar-cerrar-48.png"))); // NOI18N
         jGuardar.setText("Guardar");
+        jGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jGuardarActionPerformed(evt);
+            }
+        });
         jPanel6.add(jGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 462, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -271,6 +281,11 @@ public class registroPedido extends javax.swing.JFrame {
         precioTotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         precioTotal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         precioTotal.setFocusable(false);
+        precioTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                precioTotalActionPerformed(evt);
+            }
+        });
         jPanel6.add(precioTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 392, 80, -1));
 
         panelCategorias.setBackground(new java.awt.Color(255, 255, 255));
@@ -321,6 +336,7 @@ public class registroPedido extends javax.swing.JFrame {
             }
         });
         jPanel6.add(menosCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(748, 377, -1, -1));
+        jPanel6.add(idUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 90, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -367,7 +383,7 @@ public class registroPedido extends javax.swing.JFrame {
                 String nombre = (String) modelo.getValueAt(index, 1);
                 int precio = Integer.parseInt((String) modelo.getValueAt(index, 3));
                 int tamano = Integer.parseInt((String) modelo.getValueAt(index, 4));
-                
+
                 modelo.removeRow(index);
                 modelo.insertRow(0, new Object[]{nombreCategoria, nombre, Integer.toString(aux), Integer.toString(precio), Integer.toString(tamano)});
                 actualizarPrecioTotal();
@@ -392,7 +408,7 @@ public class registroPedido extends javax.swing.JFrame {
 
     private void masCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masCantidadMouseClicked
         int index = jTabla.getSelectedRow();
-        if (index > -1){
+        if (index > -1) {
             int aux = Integer.parseInt((String) modelo.getValueAt(index, 2)) + 1;
             String nombreCategoria = (String) modelo.getValueAt(index, 0);
             String nombre = (String) modelo.getValueAt(index, 1);
@@ -416,11 +432,65 @@ public class registroPedido extends javax.swing.JFrame {
         masCantidad.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_masCantidadMouseExited
 
+    private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
+        // TODO add your handling code here:
+        Date fecha = new Date();
+        //SimpleDateFormat formatofecha = new SimpleDateFormat("yyyy-MM-dd");
+        int metodo = 0;
+        
+        
+        
+
+        SqlVentas modSql = new SqlVentas();
+        Ventas1 modo = new Ventas1();
+
+        if (metodoPago.getSelectedItem().equals("Selecciona")) {
+
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+
+        } else {
+
+            if (metodoPago.getSelectedItem().equals("Efectivo")) {
+                metodo = 1;
+            } else if (metodoPago.getSelectedItem().equals("Tarjeta de débito")) {
+                metodo = 2;
+            } else if (metodoPago.getSelectedItem().equals("Tarjeta de crédito")) {
+                metodo = 3;
+            }
+
+            modo.setIdUsuario(idUsuario.getText());
+            System.out.println("el id es" + idUsuario.getText());
+            modo.setDate(fecha);
+            System.out.println("la fecha es: " + fecha);
+            modo.setMetodoPago(metodo);
+            System.out.println("el metodo es : " + metodo );
+            modo.setValorTotal(Integer.parseInt(precioTotal.getText().substring(1)));
+            
+            if(modSql.registrarVentas(modo)){
+                
+                JOptionPane.showMessageDialog(null, "Registro guardado");
+                anularPedido();
+            } else{
+                
+                JOptionPane.showMessageDialog(null, "Error al guardar");
+            }
+            
+
+        }
+
+
+    }//GEN-LAST:event_jGuardarActionPerformed
+
+    private void precioTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_precioTotalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollCategoria;
     private javax.swing.JScrollPane ScrollProducto;
     public static javax.swing.JScrollPane ScrollTabla;
+    public static javax.swing.JTextField idUsuario;
     public static javax.swing.JButton jAnular;
     public static javax.swing.JButton jCerrarSesion;
     public static javax.swing.JButton jGuardar;
