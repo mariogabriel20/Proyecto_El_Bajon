@@ -1,13 +1,24 @@
 package frames;
 
+
 import java.awt.Image;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.imageio.ImageIO;
+import javax.swing.table.DefaultTableModel;
 
 public class Ventas extends javax.swing.JFrame {
+    
+     PreparedStatement ps;
+    ResultSet rs;
 
     public Ventas() {
         initComponents();
+        mostrartablaventas();
         this.getContentPane().setBackground(new java.awt.Color(102,255,102));
         
         try{
@@ -24,10 +35,9 @@ public class Ventas extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jConsultar = new javax.swing.JButton();
         jTitulo = new javax.swing.JLabel();
         jScroll = new javax.swing.JScrollPane();
-        jTabla = new javax.swing.JTable();
+        jTablaVentas = new javax.swing.JTable();
         jRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -35,14 +45,16 @@ public class Ventas extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
-        jConsultar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jConsultar.setText("Consultar ventas");
-
         jTitulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jTitulo.setText("Registro de ventas");
 
-        jTabla.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTabla.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaVentas = new javax.swing.JTable(){
+            public boolean isCellEditable (int rowIndex, int colIndex){
+                return false;
+            }
+        };
+        jTablaVentas.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTablaVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -73,7 +85,7 @@ public class Ventas extends javax.swing.JFrame {
                 "idVentas", "Folio", "Fecha", "Método de pago", "Valor total", "idUsuario"
             }
         ));
-        jScroll.setViewportView(jTabla);
+        jScroll.setViewportView(jTablaVentas);
 
         jRegresar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-volver-filled-24.png"))); // NOI18N
@@ -96,10 +108,8 @@ public class Ventas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(659, 659, 659)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jConsultar, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jRegresar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGap(679, 679, 679)
+                                .addComponent(jRegresar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(296, 296, 296)
                                 .addComponent(jTitulo)))
@@ -111,9 +121,7 @@ public class Ventas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTitulo)
-                .addGap(9, 9, 9)
-                .addComponent(jConsultar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(41, 41, 41)
                 .addComponent(jScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jRegresar)
@@ -140,6 +148,57 @@ public class Ventas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    private void mostrartablaventas() {
+
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            jTablaVentas.setModel(modelo);
+            ps = null;
+            rs = null;
+            Connection con = practica_proyecto.Conexion.getConexion();
+
+            
+            String sql = "Select *from ventas";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Id Venta");
+            modelo.addColumn("Id Usuario");
+            modelo.addColumn("Fecha");
+            modelo.addColumn("Metodo pago");
+            modelo.addColumn("Total");
+            modelo.addColumn("folio");
+
+            int[] anchos = {50, 85, 130, 85, 50, 50};
+
+            for (int x = 0; x < cantidadColumnas; x++) {
+                jTablaVentas.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+            }
+
+            while (rs.next()) {
+
+                Object[] filas = new Object[cantidadColumnas];
+
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+
+                modelo.addRow(filas);
+
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+
+    }
+    
     private void jRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegresarActionPerformed
         menuPrincipal frame2 = new menuPrincipal();
         frame2.setLocationRelativeTo(null);
@@ -149,11 +208,10 @@ public class Ventas extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JButton jConsultar;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JButton jRegresar;
     public static javax.swing.JScrollPane jScroll;
-    public static javax.swing.JTable jTabla;
+    public static javax.swing.JTable jTablaVentas;
     public static javax.swing.JLabel jTitulo;
     // End of variables declaration//GEN-END:variables
 }

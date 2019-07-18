@@ -47,6 +47,7 @@ public class registroPedido extends javax.swing.JFrame {
 
     public registroPedido() {
         initComponents();
+        idUsuario.setVisible(false);
         precioTotal.setText("$");
         this.getContentPane().setBackground(new java.awt.Color(102, 255, 102));
         cl = (CardLayout) panelProductos.getLayout();
@@ -465,10 +466,10 @@ public class registroPedido extends javax.swing.JFrame {
 
             modo.setIdUsuario(idUsuario.getText());
             System.out.println("el id es" + idUsuario.getText());
-            //modo.setDatee((java.sql.Date) fecha);
-            //modo.setDatee(new java.sql.Date(fecha));
+           
             modo.setDate(f);
-            //modo.setDatee(f);
+            
+           
             System.out.println("la fecha es: " + modo.getDate());
             modo.setMetodoPago(metodo);
            System.out.println("el metodo es : " + metodo );

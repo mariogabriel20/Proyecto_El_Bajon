@@ -48,7 +48,6 @@ public class Productos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jAgregar = new javax.swing.JButton();
         jCategoria = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jTitulo2 = new javax.swing.JLabel();
         jScroll2 = new javax.swing.JScrollPane();
         jDescripcionProducto = new javax.swing.JTextArea();
@@ -62,14 +61,12 @@ public class Productos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPrecioProducto = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         jRegresar = new javax.swing.JButton();
         jBuscar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jComboBox3Producto = new javax.swing.JComboBox<>();
         jIdCategoria = new javax.swing.JTextField();
         jbtnbuscar = new javax.swing.JButton();
-        jbtnexportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -123,10 +120,6 @@ public class Productos extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 150, -1, -1));
-
-        jComboBox2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona", "PDF", "EXCEL" }));
-        jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(325, 82, -1, -1));
 
         jTitulo2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTitulo2.setText("Agregar producto ");
@@ -197,10 +190,6 @@ public class Productos extends javax.swing.JFrame {
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, -1, -1));
         jPanel1.add(jPrecioProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, 60, -1));
 
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel6.setText("Exportar:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 85, -1, -1));
-
         jRegresar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images&icons/icons8-volver-filled-24.png"))); // NOI18N
         jRegresar.setText("Regresar");
@@ -234,14 +223,6 @@ public class Productos extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbtnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 50, -1));
-
-        jbtnexportar.setText("Ok");
-        jbtnexportar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnexportarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jbtnexportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -632,10 +613,6 @@ public class Productos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jbtnbuscarActionPerformed
 
-    private void jbtnexportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnexportarActionPerformed
-        // TODO add your handling code here:  
-    }//GEN-LAST:event_jbtnexportarActionPerformed
-
     private void jBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBuscarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             buscartablaproductos();
@@ -647,7 +624,6 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JTextField jBuscar;
     public static javax.swing.JLabel jCategoria;
     public static javax.swing.JComboBox<String> jComboBox1Producto;
-    public static javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3Producto;
     public static javax.swing.JTextArea jDescripcionProducto;
     public static javax.swing.JButton jEliminar;
@@ -657,7 +633,6 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel3;
     public static javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
-    public static javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     public static javax.swing.JButton jModificar;
     public static javax.swing.JTextField jNombreProducto;
@@ -670,6 +645,5 @@ public class Productos extends javax.swing.JFrame {
     public static javax.swing.JLabel jTitulo;
     private javax.swing.JLabel jTitulo2;
     private javax.swing.JButton jbtnbuscar;
-    private javax.swing.JButton jbtnexportar;
     // End of variables declaration//GEN-END:variables
 }

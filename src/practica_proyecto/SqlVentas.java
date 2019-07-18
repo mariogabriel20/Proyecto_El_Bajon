@@ -5,6 +5,7 @@
  */
 package practica_proyecto;
 
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -30,9 +31,7 @@ public class SqlVentas extends Conexion{
             
            ps.setString(1, vts.getIdUsuario());
            ps.setDate(2, (Date) vts.getDate());
-          
-            System.out.println("la fecha que se inserta es: " + vts.getDate());
-        
+           System.out.println("la fecha que se inserta es: " + vts.getDate());
            ps.setInt(3, vts.getMetodoPago());
            ps.setInt(4, vts.getValorTotal());
            
